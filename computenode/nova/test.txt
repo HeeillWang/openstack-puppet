@@ -1,0 +1,8 @@
+[default]
+#puppet=no
+abc=123
+dedd=0
+
+
+[nova]
+#puppet=no
