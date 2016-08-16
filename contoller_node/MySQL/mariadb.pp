@@ -19,3 +19,5 @@ service {'mariadb':
 	ensure	=> running,
 	enable	=> true,
 }
+
+Package['mariadb'] -> Package['mariadb-server'] -> Package['MySQL-python'] -> File['mariadb_openstack.cnf'] -> Service['mariadb']
