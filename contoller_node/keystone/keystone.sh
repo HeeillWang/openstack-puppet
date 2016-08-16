@@ -3,7 +3,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 #Create database and an administration token on mysql
-mysql -u root mysql -e "update user set password=password('KEYSTONE_DBPASS') where user='root';flush privileges;"
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE keystone"
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS'"
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS'"
@@ -53,7 +52,7 @@ openstack role add --project admin --user admin admin
 openstack project create --domain default --description "Service Project" service
 openstack project create --domain default --description "Demo Project" demo
 openstack user create --domain default --password demo
-openstack role create user
+openstack role create user demo
 openstack role add --project demo --user demo user
 
 #Unset the temporary environment variables
