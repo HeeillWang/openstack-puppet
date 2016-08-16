@@ -8,3 +8,4 @@ cd $DIR
 ./ntp/ntp.sh
 ./openstack-package/openstack-package.sh
 ./rabbitmq/rabbitmq.sh
+sudo puppet apply ./host/host.pp
