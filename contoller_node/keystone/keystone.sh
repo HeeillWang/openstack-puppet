@@ -3,9 +3,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 #Create database and an administration token on mysql
-mysql -u root mysql -e "CREATE DATABASE keystone"
-mysql -u root mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS'"
-mysql -u root mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS'"
+#mysql -u root mysql -e "update user set password=password('KEYSTONE_DBPASS') where user='root';flush privileges;"
+#mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE keystone"
+#mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS'"
+#mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS'"
 
 openssl rand -hex 10 > /root/rand_hex.txt
 
