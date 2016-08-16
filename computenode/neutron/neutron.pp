@@ -73,12 +73,12 @@ file_line{ 'admin_password':
 }
 
 exec { 'integration_bridge':
-	command	=> "sed -i '8s/# //' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
+	command	=> "sed -i '0,/# integration_bridge/s/# integration_bridge/integration_bridge/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
 	path	=> ['/bin', '/sbin'],
 }
 
 exec { 'tunnel_bridge':
-	command	=> "sed -i '13s/# //' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
+	command	=> "sed -i '0,/# tunnel_bridge/s/# tennel_bridge/tennel_bridge/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
 	path	=> ['/bin', '/sbin'],
 }
 
@@ -121,7 +121,7 @@ file_line{ 'firewall_driver':
 
 file_line{ 'nova.conf':
 	path	=> '/etc/nova/nova.conf',
-	match	=> '#uri=',
+	match	=> '#url=',
 	line	=> 
 'url = http://controller:9696
 auth_url = http://controller:35357
