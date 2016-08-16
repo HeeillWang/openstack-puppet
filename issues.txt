@@ -1,17 +1,26 @@
 0. 전체
 - puppet apply시에 설치 진행 상황 확인
-- config 파일 수정시에 중복되는 요소가 있을때 하나의 요소만 수정하는 방법
+- config 파일 수정시에 중복되는 요소가 있을때 하나의 요소만 수정하는 방법 => sed를 사용함
+- match가 찾지 못했을 때 파일 끝에 line을 추가하는게 아니라 아예 추가하지 않도록 하는 방법. 이것이 안되면 여러번 puppet apply하면 의도치 않은 결과가 나옴
+=> file함수와 =~를 이용해 if문을 구성함
 
 1. openstack - package
 - yum install을 주소로부터 할때 pp로 할방법 => yumrepo사용으로는 에러가 발생함
 - yum upgrade를 pp로 하는 방법
 
 2. opestack computenode - nova
-- rabbit_host=   => 0-2번문제가 겹치지만 편법으로 우선해결함
+- rabbit_host=   => 0-2번문제가 미묘하게 겹치지만 편법으로 우선해결함
 - rabbit_password => 임의로 지정했는데 (skcc1234) 문제 생기면 확인 해야함
 - auth_strategy => 2개의 요소가 있음. 0-2번을 해결해야함.
+- nova password => 임의로 지정(skcc1234)
+- my_ip => 이후에 확인
+- novnproxy_base_url => 컨트롤러가 지정되지 않아 일단 compute로 지정함. 추후 확인
+- glance-host => all-in-one으로 깔게될때 설정 다시해야함
+
+3. nosql
+- bind_ip 우선 compute로 지정
 
 
 
-
-- 현재 computenode-nova의 rabbitMQ까지 작업완료
+*computenode - nova완료
+*nosql 완료
