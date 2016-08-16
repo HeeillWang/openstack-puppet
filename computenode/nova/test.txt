@@ -1,8 +1,0 @@
-[default]
-puppet=yes
-#puppet=no
-dedd=0
-
-
-[nova]
-#puppet=no
