@@ -8,7 +8,7 @@ echo -e "\nOperating Yum Update"
 for ((i=0;i<COLUMNS;i++));do
 	echo -n "-"
 done
-sudo yum update
+sudo yum -y update
 
 sleep 1
 
