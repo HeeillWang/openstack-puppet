@@ -4,11 +4,16 @@
 #    "set puppet yes",
 #  ],
 #}
-
+class abc(){
 file_line { 'someline':
   path     => '/root/openstack-puppet/computenode/nova/test.txt',
-  match    => '#puppet',
+  #ensure   => 'absent',
+  match    => '12345',
   line     => 'puppet=yes',
-  after    => '[default]',
-  multiple => 'false',
+  #match_for_absence  => 'true',
+  #after    => '[default]',
+  #multiple => 'false',
 }
+}
+
+include abc

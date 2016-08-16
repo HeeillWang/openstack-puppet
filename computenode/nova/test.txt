@@ -1,6 +1,6 @@
 [default]
+puppet=yes
 #puppet=no
-abc=123
 dedd=0
 
 
