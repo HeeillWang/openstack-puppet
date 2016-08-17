@@ -40,22 +40,26 @@ file_line{ 'rabbit_password':
 	line	=> 'rabbit_password = RABBIT_PASS',
 }
 
-file_line{ 'auth_uri':
-	path	=> '/etc/neutron/neutron.conf',
-	match	=> 'auth_uri',
-	line	=> 
+if file("/etc/neutron/neutron.conf") =~ /auth_uri = http:\/\/127.0.0.1/{
+	file_line{ 'auth_uri':
+		path	=> '/etc/neutron/neutron.conf',
+		match	=> 'auth_uri',
+		line	=> 
 'auth_uri = http://controller:5000
 auth_url = http://controller:35357
 auth_plugin = password',
+	}
 }
 
-file_line{ 'admin_tenant_name':
-	path	=> '/etc/neutron/neutron.conf',
-	match	=> '^admin_tenant_name',
-	line	=> 
+if file("/etc/neutron/neutron.conf") =~ /^admin_tenant_name/{
+	file_line{ 'admin_tenant_name':
+		path	=> '/etc/neutron/neutron.conf',
+		match	=> '^admin_tenant_name',
+		line	=> 
 'project_domain_id = default
 user_domain_id = default
 project_name = service',
+	}
 }
 
 file_line{ 'admin_user':
