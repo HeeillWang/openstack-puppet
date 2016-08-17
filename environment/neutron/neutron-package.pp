@@ -1,2 +1,0 @@
-package {'openstack-neutron-openvswitch':}
-
