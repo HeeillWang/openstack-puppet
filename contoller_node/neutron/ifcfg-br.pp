@@ -29,7 +29,7 @@ OVS_BRIDGE=br-public',
 
 file {'ifcfg-br-private':
 	path    => '/etc/sysconfig/network-scripts/ifcfg-br-private',
-	contetn	=> 
+	content	=> 
 'DEVICE=br-private
 BOOTPROTO=none
 ONBOOT=yes
