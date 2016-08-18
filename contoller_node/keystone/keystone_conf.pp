@@ -8,7 +8,7 @@ $path = '/etc/keystone/keystone.conf'){
 
     file_line{'connection':
        path   => $path,
-       line   => "connection = mysql://keystone:skcc1234@controller/keystone",
+       line   => "connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone",
        match  => "#connection =",
     }
 
