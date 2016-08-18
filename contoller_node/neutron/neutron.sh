@@ -51,6 +51,11 @@ ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 echo 'Populate database...'
 /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
 
+echo 'OpenVswitch Settings'
+ovs-vsctl add-br br-public
+ovs-vsctl add-br br-private
+puppet apply ifcfg-br.pp
+
 systemctl restart openstack-nova-api.service
 systemctl enable neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service
 systemctl start neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service
