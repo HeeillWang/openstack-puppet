@@ -43,9 +43,7 @@ su -s /bin/sh -c "glance-manage db_sync" glance
 echo "export OS_IMAGE_API_VERSION=2" tee -a /root/admin-openrc.sh
 source /root/admin-openrc.sh
 sudo yum install -y wget
-sudo wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
-glance image-create --name "cirros" \
-  --file cirros-0.3.4-x86_64-disk.img \
-  --disk-format qcow2 --container-format bare \
-  --visibility public --progress
+wget --directory-prefix=/root/ http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+glance image-create --name "cirros" --file /root/cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare \
+>   --visibility public --progress
 
