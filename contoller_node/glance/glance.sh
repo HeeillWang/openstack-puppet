@@ -44,6 +44,7 @@ echo "export OS_IMAGE_API_VERSION=2" tee -a /root/admin-openrc.sh
 source /root/admin-openrc.sh
 sudo yum install -y wget
 wget --directory-prefix=/root/ http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
-glance image-create --name "cirros" --file /root/cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare \
->   --visibility public --progress
-
+glance image-create --name "cirros" \
+  --file /root/cirros-0.3.4-x86_64-disk.img \
+  --disk-format qcow2 --container-format bare \
+  --visibility public --progress
