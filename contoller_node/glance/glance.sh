@@ -6,7 +6,7 @@ sudo mysql -u root mysql -e " GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' I
 # Create uesr, endpoint, service entry
 source admin-openrc.sh
 
-openstack user create --domain default --password-prompt glance
+openstack user create --domain default --password skcc1234 glance
 openstack role add --project service --user glance admin
 openstack service create --name glance --description "OpenStack Image service" image
 openstack endpoint create --region RegionOne image public http://controller:9292
