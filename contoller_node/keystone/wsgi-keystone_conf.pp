@@ -1,6 +1,5 @@
 file {'wsgi-keystone_conf':
    path    => "/etc/httpd/conf.d/wsgi-keystone.conf",
-#   ensure  => absent,
    content =>
 'Listen 5000
 Listen 35357
