@@ -1,0 +1,52 @@
+● openstack-nova-api.service - OpenStack Nova API Server
+   Loaded: loaded (/usr/lib/systemd/system/openstack-nova-api.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2016-08-19 17:33:00 KST; 1min 37s ago
+ Main PID: 5341 (nova-api)
+   CGroup: /system.slice/openstack-nova-api.service
+           ├─5341 /usr/bin/python2 /usr/bin/nova-api
+           ├─5451 /usr/bin/python2 /usr/bin/nova-api
+           ├─5454 /usr/bin/python2 /usr/bin/nova-api
+           └─5465 /usr/bin/python2 /usr/bin/nova-api
+
+Aug 19 17:31:22 controller systemd[1]: Starting OpenStack Nova API Server...
+Aug 19 17:31:59 controller nova-api[5341]: No handlers could be found for logger "oslo_config.cfg"
+Aug 19 17:32:56 controller sudo[5455]:     nova : TTY=unknown ; PWD=/ ; USER=root ; COMMAND=/bin/nova-rootwrap /etc/nova/rootwrap.conf iptables-save -c
+Aug 19 17:32:59 controller sudo[5462]:     nova : TTY=unknown ; PWD=/ ; USER=root ; COMMAND=/bin/nova-rootwrap /etc/nova/rootwrap.conf iptables-restore -c
+Aug 19 17:33:00 controller systemd[1]: Started OpenStack Nova API Server.
+Aug 19 17:34:06 controller systemd[1]: Started OpenStack Nova API Server.
+
+● openstack-nova-consoleauth.service - OpenStack Nova VNC console auth Server
+   Loaded: loaded (/usr/lib/systemd/system/openstack-nova-consoleauth.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2016-08-19 17:32:29 KST; 2min 8s ago
+ Main PID: 5343 (nova-consoleaut)
+   CGroup: /system.slice/openstack-nova-consoleauth.service
+           └─5343 /usr/bin/python2 /usr/bin/nova-consoleauth
+
+Aug 19 17:32:46 controller nova-consoleauth[5343]: File "/usr/lib64/python2.7/site-packages/sqlalchemy/engine/strategies.py", line 97, in connect
+Aug 19 17:32:46 controller nova-consoleauth[5343]: return dialect.connect(*cargs, **cparams)
+Aug 19 17:32:46 controller nova-consoleauth[5343]: File "/usr/lib64/python2.7/site-packages/sqlalchemy/engine/default.py", line 385, in connect
+Aug 19 17:32:46 controller nova-consoleauth[5343]: return self.dbapi.connect(*cargs, **cparams)
+Aug 19 17:32:46 controller nova-consoleauth[5343]: File "/usr/lib64/python2.7/site-packages/MySQLdb/__init__.py", line 81, in Connect
+Aug 19 17:32:46 controller nova-consoleauth[5343]: return Connection(*args, **kwargs)
+Aug 19 17:32:46 controller nova-consoleauth[5343]: File "/usr/lib64/python2.7/site-packages/MySQLdb/connections.py", line 187, in __init__
+Aug 19 17:32:46 controller nova-consoleauth[5343]: super(Connection, self).__init__(*args, **kwargs2)
+Aug 19 17:32:46 controller nova-consoleauth[5343]: OperationalError: (_mysql_exceptions.OperationalError) (1045, "Access denied for user 'nova'@'localhost' (using password: YES)")
+Aug 19 17:34:06 controller systemd[1]: Started OpenStack Nova VNC console auth Server.
+
+● openstack-nova-conductor.service - OpenStack Nova Conductor Server
+   Loaded: loaded (/usr/lib/systemd/system/openstack-nova-conductor.service; enabled; vendor preset: disabled)
+   Active: active (running) since Fri 2016-08-19 17:32:31 KST; 2min 7s ago
+ Main PID: 5345 (nova-conductor)
+   CGroup: /system.slice/openstack-nova-conductor.service
+           └─5345 /usr/bin/python2 /usr/bin/nova-conductor
+
+Aug 19 17:32:35 controller nova-conductor[5345]: File "/usr/lib64/python2.7/site-packages/sqlalchemy/engine/strategies.py", line 97, in connect
+Aug 19 17:32:35 controller nova-conductor[5345]: return dialect.connect(*cargs, **cparams)
+Aug 19 17:32:35 controller nova-conductor[5345]: File "/usr/lib64/python2.7/site-packages/sqlalchemy/engine/default.py", line 385, in connect
+Aug 19 17:32:35 controller nova-conductor[5345]: return self.dbapi.connect(*cargs, **cparams)
+Aug 19 17:32:35 controller nova-conductor[5345]: File "/usr/lib64/python2.7/site-packages/MySQLdb/__init__.py", line 81, in Connect
+Aug 19 17:32:35 controller nova-conductor[5345]: return Connection(*args, **kwargs)
+Aug 19 17:32:35 controller nova-conductor[5345]: File "/usr/lib64/python2.7/site-packages/MySQLdb/connections.py", line 187, in __init__
+Aug 19 17:32:35 controller nova-conductor[5345]: super(Connection, self).__init__(*args, **kwargs2)
+Aug 19 17:32:35 controller nova-conductor[5345]: OperationalError: (_mysql_exceptions.OperationalError) (1045, "Access denied for user 'nova'@'localhost' (using password: YES)")
+Aug 19 17:34:06 controller systemd[1]: Started OpenStack Nova Conductor Server.
