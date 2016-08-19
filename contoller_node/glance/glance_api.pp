@@ -22,7 +22,7 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = glance
-password = GLANCE_PASS
+password = skcc1234
 ',
         	}
 	}

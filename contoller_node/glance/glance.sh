@@ -4,26 +4,26 @@ sudo mysql -u root mysql -e "GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'local
 sudo mysql -u root mysql -e " GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY 'GLANCE_DBPASS';"
 
 # Create uesr, endpoint, service entry
-source admin-openrc.sh
+source /root/admin-openrc.sh
 
 for((i=0;i<COLUMNS;i++))do
-	echo '-'
+	echo -n '-'
 done
 echo 'Create Openstack User: glacne...'
 openstack user create --domain default --password skcc1234 glance
 
 for((i=0;i<COLUMNS;i++))do
-        echo '-'
+        echo -n '-'
 done
 echo 'Add user role: admin...'
 openstack role add --project service --user glance admin
 for((i=0;i<COLUMNS;i++))do
-        echo '-'
+        echo -n '-'
 done
 echo 'Create Openstack Service: glance...'
 openstack service create --name glance --description "OpenStack Image service" image
 for((i=0;i<COLUMNS;i++))do
-        echo '-'
+        echo -n '-'
 done
 echo 'Create Image Endpoint...'
 openstack endpoint create --region RegionOne image public http://controller:9292
