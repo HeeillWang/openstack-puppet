@@ -51,8 +51,8 @@ openstack role add --project admin --user admin admin
 
 openstack project create --domain default --description "Service Project" service
 openstack project create --domain default --description "Demo Project" demo
-openstack user create --domain default --password demo
-openstack role create user demo
+openstack user create --domain default --password skcc1234 demo
+openstack role create user 
 openstack role add --project demo --user demo user
 
 #Unset the temporary environment variables
