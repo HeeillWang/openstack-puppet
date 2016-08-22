@@ -3,6 +3,6 @@ cd $DIR
 
 puppet apply rabbitmq.pp
 
-rabbitmqctl add_user opnstack skcc1234
+rabbitmqctl add_user openstack skcc1234
 
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
