@@ -43,3 +43,4 @@ No handlers could be found for logger "oslo_config.cfg"에러가 발생
 
 
 !!현재 문제 : nova-compute가 start되지 않음. error발생하지 않고 systemctl start하면 계속 반응이 없음
+=> 해결함 : rabbitmq의 user_add에 오타가 있었음 오타 수정하고 nova의 모든 서비스를 리스타트하면 정상 작동함
