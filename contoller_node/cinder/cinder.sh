@@ -2,6 +2,9 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+#Add custom facters
+export FACTERLIB="../../environment/custom_facts/"
+
 #Create database
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE cinder"
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'CINDER_DBPASS'"
@@ -30,3 +33,17 @@ openstack endpoint create --region RegionOne \
 
 #Installing packages
 sudo puppet apply cinder-package.pp
+
+#Configuration
+sudo puppet apply cinder_conf.pp
+
+#Populate the Block Storage database
+/bin/sh -c "cinder-manage db sync" cinder
+
+#Configure Compute to use Block Storage
+sudo puppet apply nova_conf.pp
+
+#Finalize installation
+systemctl restart openstack-nova-api.service
+systemctl enable openstack-cinder-api.service openstack-cinder-scheduler.service
+systemctl start openstack-cinder-api.service openstack-cinder-scheduler.service
