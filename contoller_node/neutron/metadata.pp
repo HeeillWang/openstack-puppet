@@ -53,7 +53,7 @@ file_line { 'metadata_proxy':
 
 file_line { 'nova.conf':
 	path	=> '/etc/nova/nova.conf',
-	match	=> '\[neutron\]',
+	match	=> '\[neutron\]$',
 	line	=>
 '[neutron]
 

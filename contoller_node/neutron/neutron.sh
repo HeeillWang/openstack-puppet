@@ -1,8 +1,12 @@
+#Move to current directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+
 # Database Setting
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e CREATE DATABASE neutron;
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'NEUTRON_DBPASS';
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'controller' IDENTIFIED BY 'NEUTRON_DBPASS';
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'NEUTRON_DBPASS';
+mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE neutron"
+mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'NEUTRON_DBPASS'"
+mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'controller' IDENTIFIED BY 'NEUTRON_DBPASS'"
+mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'NEUTRON_DBPASS'"
 
 source /root/admin-openrc.sh
 

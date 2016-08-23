@@ -47,7 +47,7 @@ file_line{ 'firewall_driver':
 
 file_line{'enable_security_group:'
 	path	=> '/etc/neutron/plugins/ml2/openvswitch_agnet.ini',
-	match	=> '# enable_security_group'
+	match	=> '# enable_security_group',
 	line	=> 'enable_security_group = True',
 }
 
