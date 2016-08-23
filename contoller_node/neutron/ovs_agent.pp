@@ -45,8 +45,8 @@ file_line{ 'firewall_driver':
 	line	=> 'firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver',
 }
 
-file_line{'enable_security_group:'
-	path	=> '/etc/neutron/plugins/ml2/openvswitch_agnet.ini',
+file_line{'enable_security_group':
+	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
 	match	=> '# enable_security_group',
 	line	=> 'enable_security_group = True',
 }
