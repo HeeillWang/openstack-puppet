@@ -55,7 +55,7 @@ if file($pathes) =~ /\#OPENSTACK_API_VERSIONS/{
 	}
 	file_line { 'identity':
 		path	=> $pathes,
-		match	=> '"identitiy"',
+		match	=> '"identity"',
 		line	=> '    "identity": 3,',
 	}
 	file_line {'volume':
