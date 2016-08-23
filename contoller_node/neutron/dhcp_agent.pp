@@ -20,11 +20,11 @@ file_line {'enable_isolated_metadata':
 
 file_line {'dnsmasq_config_file':
 	path	=> $pathes,
-	match	=> 'dnsmasq_config_file'
+	match	=> 'dnsmasq_config_file',
 	line	=> 'dnsmasq_config_file = /etc/neutron/dnsmasq-neutron.conf',
 }
 
-file {'/etc/neutron/dnsmasq-neutron.conf'
+file {'/etc/neutron/dnsmasq-neutron.conf':
 	path	=> '/etc/neutron/dnsmasq-neutron.conf',
 	content	=> 'dhcp-option-force=26,1450'
 }

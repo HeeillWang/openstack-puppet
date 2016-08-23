@@ -8,7 +8,7 @@ mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'n
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS'"
 
 #Create Nova service, user, role and endpoints
-#source /root/admin-openrc.sh
+source /root/admin-openrc.sh
 
 openstack user create --domain default --password skcc1234 nova
 openstack role add --project service --user nova admin
