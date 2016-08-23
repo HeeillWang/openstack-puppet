@@ -6,9 +6,10 @@ cd $DIR
 export FACTERLIB="$DIR/custom_facts"
 
 #installing step
-./MySQL/mariadb.sh
-./NoSQL/nosql.sh
+sudo puppet apply ./host/host.pp
 ./ntp/ntp.sh
 ./openstack-package/openstack-package.sh
+./MySQL/mariadb.sh
+./NoSQL/nosql.sh
 ./rabbitmq/rabbitmq.sh
-sudo puppet apply ./host/host.pp
+
