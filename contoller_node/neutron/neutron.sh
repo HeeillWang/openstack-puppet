@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
@@ -36,6 +39,11 @@ openstack endpoint create --region RegionOne network public http://controller:96
 openstack endpoint create --region RegionOne network internal http://controller:9696
 openstack endpoint create --region RegionOne network admin http://controller:9696
 
+echo 'OpenVswitch Settings'
+puppet apply ifcfg-br.pp
+#ovs-vsctl add-br br-public
+#ovs-vsctl add-br br-private
+
 echo 'Set configure files...'
 puppet apply neutron_package.pp
 puppet apply neutron_conf.pp
@@ -51,15 +59,10 @@ ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
 echo 'Populate database...'
 /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
 
-echo 'OpenVswitch Settings'
-ovs-vsctl add-br br-public
-ovs-vsctl add-br br-private
-puppet apply ifcfg-br.pp
+systemctl restart network
 
 systemctl restart openstack-nova-api.service
-systemctl enable neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service
-systemctl start neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service
-systemctl enable neutron-l3-agent.service
-systemctl start neutron-l3-agent.service
-
+systemctl enable neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service neutron-l3-agent.service
+systemctl start neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service neutron-l3-agent.service
+systemctl restart neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service neutron-l3-agent.service
 

@@ -10,6 +10,6 @@ sudo puppet apply ./host/host.pp
 ./ntp/ntp.sh
 ./openstack-package/openstack-package.sh
 ./MySQL/mariadb.sh
-./NoSQL/nosql.sh
+#./NoSQL/nosql.sh
 ./rabbitmq/rabbitmq.sh
 
