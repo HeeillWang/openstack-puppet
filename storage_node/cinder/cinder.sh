@@ -6,10 +6,20 @@ cd $DIR
 
 #Create LVM physical volume and volume group
 disk=$(cat ../../answer.txt | grep 'disk =' )
-echo creating LVM pv on : ${disk:6}
 
-pvcreate ${disk:6}
-vgcreate cinder-volumes ${disk:6}
+if [ $(pvs | grep -o ${disk:6}) ];then
+    echo "physical volume ${disk:6} is already exist! Skip pvcreate..."
+else
+    echo "create physical volume"
+    pvcreate ${disk:6}
+fi
+ 
+if [ $(vgs | grep -o 'cinder-volumes') ];then
+    echo "volume group cinder-volumes is already exist! Skip vgcreate..."
+else
+    vgcreate cinder-volumes ${disk:6}
+fi
+    
 
 #configuration
 puppet apply cinder_conf.pp
