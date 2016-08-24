@@ -8,8 +8,8 @@ cd $DIR
 disk=$(cat ../../answer.txt | grep 'disk =' )
 echo creating LVM pv on : ${disk:6}
 
-#pvcreate $disk
-#vgcreate cinder-volumes $disk
+pvcreate $disk
+vgcreate cinder-volumes $disk
 
 #configuration
 puppet apply cinder_conf.pp
