@@ -13,18 +13,18 @@ DEVICETYPE=ovs
 TYPE=OVSBridge",
 }
 
-file {'ifcfg-enp0s3':
-	path	=> '/etc/sysconfig/network-scripts/ifcfg-enp0s3',
+file {"ifcfg-$iface1":
+	path	=> "/etc/sysconfig/network-scripts/ifcfg-$iface1",
 	content	=> 
-'DEVICE=enp0s3
+"DEVICE=$iface1
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
-BONDING_OPTS="mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1"
+BONDING_OPTS='mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1'
 NM_CONTROLLED=no
 DEVICETYPE=ovs
 TYPE=OVSPort
-OVS_BRIDGE=br-public',
+OVS_BRIDGE=br-public",
 }
 
 file {'ifcfg-br-private':
@@ -44,17 +44,17 @@ DEVICETYPE=ovs
 TYPE=OVSBridge",
 }
 
-file {'ifcfg-enp0s8':
-	path    => '/etc/sysconfig/network-scripts/ifcfg-enp0s8',
+file {"ifcfg-$iface2":
+	path    => "/etc/sysconfig/network-scripts/ifcfg-$iface2",
 	content	=> 
-'DEVICE=enp0s8
+"DEVICE=$iface2
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
-BONDING_OPTS="mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1"
+BONDING_OPTS='mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1'
 NM_CONTROLLED=no
 DEVICETYPE=ovs
 TYPE=OVSPort
 OVS_BRIDGE=br-private
-',
+",
 }

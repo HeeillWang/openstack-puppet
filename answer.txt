@@ -9,11 +9,11 @@ CINDER_DBPASS = skcc1234
 #Setting internet interface
 # iface1 -> public, iface2 -> private
 iface1 = enp0s3
-ifcae2 = enp0s8
+iface2 = enp0s8
 
 #Setting ipaddress
 ipaddr_public = 10.0.2.15
-ipaddr_private = 192.168.56.102
+ipaddr_private = 192.168.56.101
 
 #Setting gateway
 gateway = 10.0.2.2
