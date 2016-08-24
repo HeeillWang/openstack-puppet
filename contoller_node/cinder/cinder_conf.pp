@@ -1,8 +1,8 @@
 class cinder_conf($path = "/etc/cinder/cinder.conf"){
    file_line{'database_connection':
-      path	=> $path,
-      line	=> "connection = mysql://cinder:CINDER_DBPASS@controller/cinder",
-      match	=> "#connection = ",
+      path      => $path,
+      line      => "connection = mysql://cinder:$cinder_dbpass@controller/cinder",
+      match     => "^#?connection = ",
    }
 
    #target is on line:2294 
@@ -28,7 +28,7 @@ class cinder_conf($path = "/etc/cinder/cinder.conf"){
 
    #target is on line:3185
    exec{'rabbit_password':
-      command => "sed -i '3150,3250s/#rabbit_password = guest/rabbit_password = RABBIT_PASS/g' cinder.conf",
+      command => "sed -i '3150,3250s/#rabbit_password = guest/rabbit_password = $rabbit_pass/g' cinder.conf",
       cwd => "/etc/cinder",
       path => "/bin",
    }
@@ -51,14 +51,14 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = cinder
-password = skcc1234",
+password = $cinder_authpass",
          match	=> "#auth_uri",
       }
    }
 
    file_line{'my_ip':
       path	=> $path,
-      line	=> "my_ip = 10.0.2.15",
+      line	=> "my_ip = $ipaddr_private",
       match	=> "my_ip = ",
    }
 
