@@ -34,13 +34,20 @@ No handlers could be found for logger "oslo_config.cfg"에러가 발생
 6. controllernode - nova
 - nova.conf의 [database] connection이 두개 있어 부득이하게 sed에서 줄 범위로 검색하여 변경함
 - nova.conf의 [vnc] vncserver_listen이 compute와 controller에서설정이 다르다. controller을 따라가고 compute의 해당 file_line은 주석처리
+- 현재 문제 : nova-compute가 start되지 않음. error발생하지 않고 systemctl start하면 계속 반응이 없음
+=> 해결함 : rabbitmq의 user_add에 오타가 있었음 오타 수정하고 nova의 모든 서비스를 리스타트하면 정상 작동함
 
-*computenode - nova완료 => nova-comput가 시작되지 않는 문제 발생
-*nosql 완료
+7. cinder
+- lvm.conf는 file_line의 after로 지정함
+- 작업 완료
+
+8. 코드 확인
+- mysql 비밀번호 쉘 변수로 받을때 좌측 공백 주의!
+
+
+*computenode - nova완료 => nova-comput가 시작되지 않는 문제 발생 =>해결
+*envir 완료
 *keystone - 진행중 / 여러가지 문제들이 발견(keystone이 start되지 않음, service create가 되지 않음) => 작업 완료
 *controllnode - nova 완료
+*cinder - controller 부분 완료
 
-
-
-!!현재 문제 : nova-compute가 start되지 않음. error발생하지 않고 systemctl start하면 계속 반응이 없음
-=> 해결함 : rabbitmq의 user_add에 오타가 있었음 오타 수정하고 nova의 모든 서비스를 리스타트하면 정상 작동함
