@@ -13,3 +13,6 @@ sudo puppet apply ./host/host.pp
 #./NoSQL/nosql.sh
 ./rabbitmq/rabbitmq.sh
 
+#remote settings
+scp compute.sh root@compute:/root/compute.sh
+
