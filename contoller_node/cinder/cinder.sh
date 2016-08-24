@@ -3,7 +3,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 #Add custom facters
-export FACTERLIB="../../environment/custom_facts/"
+export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 #Create database
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE cinder"
