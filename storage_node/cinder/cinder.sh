@@ -23,6 +23,7 @@ fi
 
 #configuration
 puppet apply cinder_conf.pp
+puppet apply lvm_conf.pp
 
 #Finalize installation
 systemctl enable openstack-cinder-volume.service target.service
