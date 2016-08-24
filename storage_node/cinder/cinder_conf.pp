@@ -28,7 +28,7 @@ class cinder_conf($path = "/etc/cinder/cinder.conf"){
 
    #target is on line:3185
    exec{'rabbit_password':
-      command => "sed -i '3150,3250s/#rabbit_password = guest/rabbit_password = RABBIT_PASS/g' cinder.conf",
+      command => "sed -i '3150,3250s/#rabbit_password = guest/rabbit_password = skcc1234/g' cinder.conf",
       cwd => "/etc/cinder",
       path => "/bin",
    }
