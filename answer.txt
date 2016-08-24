@@ -17,3 +17,6 @@ ipaddr_private = 192.168.56.102
 
 #Setting gateway
 gateway = 10.0.2.2
+
+#Setting disk
+disk = /dev/sda
