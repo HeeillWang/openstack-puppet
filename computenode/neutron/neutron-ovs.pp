@@ -61,8 +61,3 @@ username = neutron
 password = skcc1234'
 	}
 }
-
-service {'neutron-openvswitch-agent':
-	ensure => running,
-	enable => true,
-}

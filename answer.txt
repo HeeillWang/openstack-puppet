@@ -20,3 +20,10 @@ gateway = 10.0.2.2
 
 #Setting disk
 disk = /dev/sda
+
+#Setting compute nodes
+ifname1 = enp0s3
+ifname2 = enp0s8
+ip_public = 10.0.2.15
+ip_private = 192.168.56.102
+gate_com = 10.0.2.2
