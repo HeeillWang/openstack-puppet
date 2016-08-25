@@ -1,7 +1,7 @@
-$fname1 = "/etc/sysconfig/network-scripts/ifcfg-$ifname1"
-$fname2 = "/etc/sysconfig/network-scripts/ifcfg-$ifname2"
+$fname1 = "/etc/sysconfig/network-scripts/ifcfg-$iface1"
+$fname2 = "/etc/sysconfig/network-scripts/ifcfg-$iface2"
 
-file { $fname1:
+file { '$fname1':
 	path	=> $fname1,
 	content	=>
 "DEVICE=ifname1
@@ -16,8 +16,8 @@ OVS_BRIDGE=br-public
 "
 }
 
-file { $fname2:
-	path	=> fname2,
+file { '$fname2':
+	path	=> $fname2,
 	content	=>
 "DEVICE=$ifname2
 BOOTPROTO=none
