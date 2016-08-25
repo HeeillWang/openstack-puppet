@@ -22,12 +22,12 @@ mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON glance.* TO '
 
 # Create uesr, endpoint, service entry
 source /root/admin-openrc.sh
-authpass=$(cat $DIR/../../answer.txt | grep cinder_authpass)
+authpass=$(cat $DIR/../../answer.txt | grep glance_authpass)
 
 for((i=0;i<COLUMNS;i++))do
 	echo -n '-'
 done
-echo 'Create Openstack User: glacne...'
+echo 'Create Openstack User: glance...'
 
 if [ $(openstack user list | grep -w -o glance) ];then
     echo "user 'glance' is already exists! skip user creation..."
@@ -38,8 +38,8 @@ fi
 
 echo 'Create Openstack Service: glance...'
 
-if [ $(openstack service list | grep -w -o cinder) ];then
-    echo "service 'cinder' is already exists! skip service and endpoint creation..."
+if [ $(openstack service list | grep -w -o glance) ];then
+    echo "service 'glance' is already exists! skip service and endpoint creation..."
 else
     openstack service create --name glance --description "OpenStack Image service" image
     for((i=0;i<COLUMNS;i++))do
@@ -49,7 +49,7 @@ else
     openstack endpoint create --region RegionOne image public http://controller:9292
     openstack endpoint create --region RegionOne image internal http://controller:9292
     openstack endpoint create --region RegionOne image admin http://controller:9292
-
+fi
 
 puppet apply glance_package.pp
 puppet apply glance_api.pp
@@ -62,8 +62,13 @@ puppet apply glance_regi.pp
 echo "export OS_IMAGE_API_VERSION=2" tee -a /root/admin-openrc.sh
 source /root/admin-openrc.sh
 sudo yum install -y wget
-wget --directory-prefix=/root/ http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
-glance image-create --name "cirros" \
-  --file /root/cirros-0.3.4-x86_64-disk.img \
-  --disk-format qcow2 --container-format bare \
-  --visibility public --progress
+
+if [ $(glance image-list | grep -w -o cirros) ];then
+    echo "image 'glance' is already exists! skip image creation..."
+else
+    wget --directory-prefix=/root/ http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+    glance image-create --name "cirros" \
+      --file /root/cirros-0.3.4-x86_64-disk.img \
+      --disk-format qcow2 --container-format bare \
+      --visibility public --progress
+fi

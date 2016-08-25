@@ -1,12 +1,8 @@
-package {'openstack-glance':}
-package {'python-glance':}
-package {'python-glanceclient':}
-
 class glance_api($path = '/etc/glance/glance-api.conf'){
 	file_line {'connection':
 		path	=> $path,
 		match	=> '#connection=',
-		line	=> 'connection = mysql://glance:GLANCE_DBPASS@controller/glance',
+		line	=> 'connection = mysql://glance:$GLANCE_DBPASS@controller/glance',
 	}
 	if file($path) =~ /auth_plugin/{}
 	else {
@@ -22,7 +18,7 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = glance
-password = skcc1234
+password = $glnace_authpass
 ',
         	}
 	}
@@ -53,5 +49,3 @@ password = skcc1234
 }
 
 include glance_api
-
-Package['openstack-glance'] -> Package['python-glance'] -> Package['python-glanceclient'] -> Class['glance_api']
