@@ -54,7 +54,7 @@ password = skcc1234",
 
    file_line{'my_ip':
       path	=> $path,
-      line	=> "my_ip = 10.0.2.15",
+      line	=> "my_ip = $ipaddr_private",
       match	=> "#my_ip",
    }
 

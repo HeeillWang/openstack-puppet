@@ -2,6 +2,9 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+#Add custom facters
+export FACTERLIB="$DIR/../../environment/custom_facts/"
+
 #Create database
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE nova"
 mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'NOVA_DBPASS'"
