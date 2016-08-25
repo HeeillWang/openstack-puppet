@@ -1,8 +1,8 @@
 class glance_regi($path = '/etc/glance/glance-registry.conf'){
 	file_line{'connection':
 		path	=> $path,
-		match	=> '#connection=',
-		line	=> 'connection = mysql://glance:$GLANCE_DBPASS@controller/glance'
+		match	=> '#connection =',
+		line	=> "connection = mysql://glance:$glance_dbpass@controller/glance"
 	}
 	
 	if file($path) =~ /auth_plugin/{}
@@ -11,7 +11,7 @@ class glance_regi($path = '/etc/glance/glance-registry.conf'){
 			path	=> $path,
 			match	=> '\[keystone_authtoken\]',
 			line	=>
-'[keystone_authtoken]
+"[keystone_authtoken]
 auth_uri = http://controller:5000
 auth_url = http://controller:35357
 auth_plugin = password
@@ -19,8 +19,8 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = glance
-password = $glance_authtoken
-',
+password = $glance_authpass
+",
 		}
 	}
 	

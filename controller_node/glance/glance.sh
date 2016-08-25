@@ -1,4 +1,4 @@
-set -e
+#set -e
 
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -57,12 +57,13 @@ puppet apply glance_regi.pp
 
 
 /bin/sh -c "glance-manage db_sync" glance
-
+echo "########glance db sync complete#############"
 #Verify operation
 echo "export OS_IMAGE_API_VERSION=2" tee -a /root/admin-openrc.sh
 source /root/admin-openrc.sh
-sudo yum install -y wget
 
+echo "Start verification"
+sudo yum install -y wget
 if [ $(glance image-list | grep -w -o cirros) ];then
     echo "image 'glance' is already exists! skip image creation..."
 else

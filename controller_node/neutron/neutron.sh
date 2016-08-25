@@ -5,11 +5,19 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+neutronpass=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
+
 # Database Setting
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE neutron"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'NEUTRON_DBPASS'"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'controller' IDENTIFIED BY 'NEUTRON_DBPASS'"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'NEUTRON_DBPASS'"
+if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep neutron) ];then
+    echo "database 'neutron' is already exists. skip database creation..."
+else
+    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE neutron"
+fi
+
+mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '${neutron_pass:17}'"
+mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '${neutron_pass:17}'"
+
 
 source /root/admin-openrc.sh
 
@@ -17,29 +25,32 @@ for((i=0;i<COLUMNS;i++))do
 	echo -n '-'
 done
 echo 'Create Openstack User: neutron...'
-openstack user create --domain default --password skcc1234 neutron
-
-for((i=0;i<COLUMNS;i++))do
-	echo -n '-'
-done
-echo 'Add Role Admin To Uuser: neutron...'
-openstack role add --project service --user neutron admin
-
+if [ $(openstack user list | grep -w -o neutron) ];then
+	echo "user 'neutron' is already exists! skip uer creation..."
+else
+	openstack user create --domain default --password skcc1234 neutron
+	openstack role add --project service --user neutron admin
+fi
 for((i=0;i<COLUMNS;i++))do
 	echo -n '-'
 done
 echo 'Create Openstack Service: neutron...'
-openstack service create --name neutron --description "OpenStack Networking" network
 
-for((i=0;i<COLUMNS;i++))do
-        echo -n '-'
-done
-echo 'Create Service Endpoint: neutron...'
-openstack endpoint create --region RegionOne network public http://controller:9696
-openstack endpoint create --region RegionOne network internal http://controller:9696
-openstack endpoint create --region RegionOne network admin http://controller:9696
+if [ $(openstack service list | grep -w -o glance) ];then
+    echo "service 'neutron' is already exists! skip service and endpoint creation..."
+else
+	openstack service create --name neutron --description "OpenStack Networking" network
 
-echo 'OpenVswitch Settings'
+	for((i=0;i<COLUMNS;i++))do
+		echo -n '-'
+	done
+	echo 'Create Service Endpoint: neutron...'
+	openstack endpoint create --region RegionOne network public http://controller:9696
+	openstack endpoint create --region RegionOne network internal http://controller:9696
+	openstack endpoint create --region RegionOne network admin http://controller:9696
+fi
+
+echo 'OpenVswitch Settings...'
 puppet apply ifcfg-br.pp
 #ovs-vsctl add-br br-public
 #ovs-vsctl add-br br-private

@@ -17,6 +17,9 @@ else
     mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE keystone" 
 fi
 
+echo "rootpass : ${rootpass:17}"
+echo "keystonepass : ${keystonepass:18}"
+
 mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '${keystonepass:18}'"
 mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '${keystonepass:18}'"
 
@@ -29,7 +32,9 @@ puppet apply keystone-package.pp
 #Config keystone.conf
 puppet apply keystone_conf.pp
 #Populate the Identity service database
+echo "dbsync start!"
 /bin/sh -c "keystone-manage db_sync" keystone
+echo "dbsync completed"
 #Config httpd.conf
 puppet apply httpd_conf.pp
 #Config wsgi-keystone.conf
