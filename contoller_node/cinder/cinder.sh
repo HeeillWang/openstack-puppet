@@ -23,12 +23,12 @@ mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON cinder.* TO '
 
 #Create user, role, service and endpoints
 source /root/admin-openrc.sh
-
+authpass=$(cat $DIR/../../answer.txt | grep cinder_authpass)
 
 if [ $(openstack user list | grep -w -o cinder) ];then
     echo "user 'cinder' is already exists! skip user creation..."
 else
-    openstack user create --domain default --password skcc1234 cinder
+    openstack user create --domain default --password ${authpass:18} cinder
     openstack role add --project service --user cinder admin
 fi
 
