@@ -2,7 +2,7 @@ class neutron-conf($path = '/etc/neutron/neutron.conf'){
 	file_line { 'connection':
 		path	=> $path,
 		match	=> '# connection = sqlite://',
-		line	=> 'connection = mysql://neutron:NEUTRON_DBPASS@controller/neutron'
+		line	=> "connection = mysql://neutron:$neutron_dbpass@controller/neutron"
 	}
 
 	file_line { 'core_plugin':
@@ -44,7 +44,7 @@ class neutron-conf($path = '/etc/neutron/neutron.conf'){
         file_line { 'rabbit_password':
                 path    => $path,
                 match   => '# rabbit_password = ',
-                line    => 'rabbit_password = skcc1234',
+                line    => "rabbit_password = $rabbit_pass",
         }
 
 	file_line { 'auth_strategy':
@@ -80,9 +80,9 @@ auth_url = http://controller:35357',
                         path    => $path,
                         match   => '^admin_password',
                         line    =>
-'project_name = service
+"project_name = service
 username = neutron
-password = skcc1234',
+password = $neutron_authpass",
                 }
 	}
 	file_line { 'notify_nova_on_status_change':
@@ -116,7 +116,7 @@ user_domain_id = default
 region_name = RegionOne
 project_name = service
 username = nova
-password = skcc1234",
+password = $nova_authpass",
 		}
 	}
 	file_line {'lock_path':
