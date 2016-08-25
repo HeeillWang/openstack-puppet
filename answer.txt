@@ -24,6 +24,7 @@ iface2 = enp0s8
 #Setting ipaddress
 ipaddr_public = 10.0.2.15
 ipaddr_private = 192.168.56.101
+private_subnet = 192.168.56.0/24
 
 #Setting gateway
 gateway = 10.0.2.2

@@ -6,6 +6,7 @@ cd $DIR
 
 temp=$(cat $DIR/answer.txt | grep "number_compute = ")
 number_com=${temp:17}
+hostnamectl set-hostname controller
 
 if [ $number_com = 0 ];then
 	./puppet-install.sh

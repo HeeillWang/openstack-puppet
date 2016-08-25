@@ -19,3 +19,10 @@ Facter.add(:gateway) do
         end
 end
 
+Facter.add(:priv_subnet) do
+	setcode do
+		subnet = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep "private_subnet = "')
+		result = subnet[subnet.index('=')+2, subnet.length]
+	end
+end
+
