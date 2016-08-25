@@ -19,7 +19,7 @@ class nova_conf($path = "/etc/nova/nova.conf"){
 
    file_line{'rabbit_password':
       path	=> $path,
-      line	=> "rabbit_password = skcc1234",
+      line	=> "rabbit_password = $rabbit_pass",
       match	=> "#rabbit_password",
    }
  
@@ -41,14 +41,14 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = nova
-password = skcc1234",
+password = nova_authpass",
       match	=> "#auth_uri",
    }
    }
 
    file_line{'my_ip':
       path	=> $path,
-      line	=> "my_ip = 10.0.2.15",
+      line	=> "my_ip = ipaddr_private",
       match	=> "#my_ip",
    }
 
