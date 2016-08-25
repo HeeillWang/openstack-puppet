@@ -33,3 +33,9 @@ Facter.add(:gateway_com) do
         end
 end
 
+Facter.add(:num_compute) do
+        setcode do
+                number = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep "number_compute = "')
+                result = number[number.index('=')+2, number.length]
+        end
+end
