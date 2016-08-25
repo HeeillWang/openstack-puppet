@@ -42,6 +42,14 @@ end
 Facter.add(:swift_dbpass) do
         setcode do
                 pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep SWIFT_DBPASS')
-                keystone_dbpass = pass[pass.index('=')+2,pass.length]
+                swift_dbpass = pass[pass.index('=')+2,pass.length]
+        end
+end
+
+# mysql database root password
+Facter.add(:mysql_rootpass) do
+        setcode do
+                pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep MYSQL_ROOTPASS')
+                mysql_rootpass = pass[pass.index('=')+2,pass.length]
         end
 end
