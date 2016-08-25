@@ -8,6 +8,7 @@ git config core.sparseCheckout true
 git remote add -f origin https://github.com/showx123/openstack-puppet
 echo "computenode" >> .git/info/sparse-checkout
 echo "environment" >> .git/info/sparse-checkout
+echo "answer.txt" >> .git/info/sparse-checkout
 git pull origin master
 
 #export environment variable FACTERLIB
