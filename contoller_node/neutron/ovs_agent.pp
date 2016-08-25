@@ -8,11 +8,10 @@ exec { 'tunnel_bridge':
 	path	=> ['/bin', '/sbin'],
 }
 
-$ipaddr = "local_ip = $ipaddress_enp0s3"
 file_line{ 'local_ip':
 	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
 	match	=> '# local_ip =$',
-	line	=> $ipaddr,
+	line	=> $ipaddr_private,
 }
 
 file_line{'bridge_mappings':
@@ -49,22 +48,5 @@ file_line{'enable_security_group':
 	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
 	match	=> '# enable_security_group',
 	line	=> 'enable_security_group = True',
-}
-
-if file("/etc/nova/nova.conf") =~ /\#uri=/{
-	file_line{ 'nova.conf':
-		path	=> '/etc/nova/nova.conf',
-		match	=> '#url=',
-		line	=> 
-'url = http://controller:9696
-auth_url = http://controller:35357
-auth_plugin = password
-project_domain_id = default
-user_domain_id = default
-region_name = RegionOne
-project_name = service
-username = neutron
-password = skcc1234'
-	}
 }
 

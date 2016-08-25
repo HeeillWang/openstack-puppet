@@ -52,6 +52,7 @@ puppet apply ovs_agent.pp
 puppet apply l3_agent.pp
 puppet apply dhcp_agent.pp
 puppet apply metadata.pp
+puppet apply nova_conf.pp
 
 echo 'Make symbolic link...'
 ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
