@@ -8,11 +8,10 @@ exec { 'tunnel_bridge':
 	path	=> ['/bin', '/sbin'],
 }
 
-$ipaddr = "local_ip = $ipaddress_enp0s3"
 file_line{ 'local_ip':
 	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
 	match	=> '# local_ip =$',
-	line	=> $ipaddr,
+	line	=> $ip_priv_com,
 }
 
 file_line{'bridge_mappings':

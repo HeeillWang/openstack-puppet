@@ -1,5 +1,12 @@
 file_line{'hosts':
    path   => "/etc/hosts",
    match  => "controller",
-   line   => "10.0.2.15   controller",
+   line   => "$ipaddr_private   controller",
+}
+if $num_compute != 0{
+file_line{'hosts':
+   path   => "/etc/hosts",
+   match  => "compute",
+   line   => "$ip_priv_com	compute",
+}
 }

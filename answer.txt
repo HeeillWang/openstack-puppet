@@ -18,23 +18,26 @@ admin_authpass = skcc1234
 
 #Setting internet interface
 # iface1 -> public, iface2 -> private
-iface1 = enp0s3
-iface2 = enp0s8
+iface1 = bond1
+iface2 = bond0
 
 #Setting ipaddress
-ipaddr_public = 10.0.2.15
-ipaddr_private = 10.0.2.15
+ipaddr_public = 119.81.249.45
+ipaddr_private = 10.111.140.93
 
 #Setting gateway
-gateway = 10.0.2.2
+gateway = 119.81.249.33
 
 #Setting disk
 #Multiple disk is OK ex:/dev/sdb /dev/sdc
 disk = /dev/sdb
 
+#number of compute node
+number_compute = 1
+
 #Setting compute nodes
-ifname1 = enp0s3
-ifname2 = enp0s8
-ip_public = 10.0.2.15
-ip_private = 192.168.56.102
-gate_com = 10.0.2.2
+ifname1 = bond1
+ifname2 = bond0
+ip_public = 119.81.249.45
+ip_private = 10.111.140.93
+gate_com = 119.81.249.33
