@@ -1,40 +1,11 @@
-#! /bin/bash
+set -e
 
-# yum update
-for ((i=0;i<COLUMNS;i++));do
-	echo -n "-"
-done
-echo -e "\nOperating Yum Update"
-for ((i=0;i<COLUMNS;i++));do
-	echo -n "-"
-done
-sudo yum -y update
+#Move to current directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
 
-sleep 1
-
-# Repository
-for ((i=0;i<COLUMNS;i++));do
-	echo -n "-"
-done
-echo -e "\nRepository Download"
-for ((i=0;i<COLUMNS;i++));do
-	echo -n "-"
-done
-
-sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
-
-sleep 1
-
-# install puppet
-for ((i=0;i<COLUMNS;i++));do
-	echo -n "-"
-done
-echo -e "\nInstall Puppet"
-for ((i=0;i<COLUMNS;i++));do
-	echo -n "-"
-done
-
-sudo yum install -y puppetserver
-
-sudo puppet module install puppetlabs-stdlib
-
+./puppet-install.sh
+./environment/environment.sh
+./controller_node/controller.sh
+./computenode/compute.sh
+./storage_node/cinder/cinder.sh
