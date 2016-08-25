@@ -13,7 +13,7 @@ cinder_authpass = skcc1234
 nova_authpass = skcc1234
 glance_authpass = skcc1234
 neutron_authpass = skcc1234
-keystone_authpass = skcc1234
+admin_authpass = skcc1234
 
 
 #Setting internet interface

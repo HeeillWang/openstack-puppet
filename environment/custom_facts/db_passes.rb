@@ -1,7 +1,7 @@
 # keystone database password
 Facter.add(:keystone_dbpass) do
 	setcode do
-		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep KEYSTONE_DBPASS')
+		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep "KEYSTONE_DBPASS ="')
 		keystone_dbpass = pass[pass.index('=')+2,pass.length]
 	end
 end

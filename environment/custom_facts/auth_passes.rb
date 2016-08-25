@@ -38,10 +38,10 @@ Facter.add(:neutron_authpass) do
 	end
 end
 
-#Keystone auth password
-Facter.add(:keystone_authpass) do
+#Admin auth password
+Facter.add(:admin_authpass) do
 	setcode do
-		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep keystone_authpass')
-		keystone_authpass = pass[pass.index('=')+2,pass.length]
+		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep admin_authpass')
+		admin_authpass = pass[pass.index('=')+2,pass.length]
 	end
 end
