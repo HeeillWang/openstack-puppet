@@ -6,7 +6,7 @@ file{ 'mariadb_openstack.cnf':
 	path	=> '/etc/my.cnf.d/mariadb_openstack.cnf',
 	content	=>
 "[mysqld]
-bind-address = 10.0.2.15
+bind-address = $ipaddr_public
 default-storage-engine = innodb
 innodb_file_per_table
 collation-server = utf8_general_ci
