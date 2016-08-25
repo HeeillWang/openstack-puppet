@@ -2,7 +2,7 @@ class glance_regi($path = '/etc/glance/glance-registry.conf'){
 	file_line{'connection':
 		path	=> $path,
 		match	=> '#connection=',
-		line	=> 'connection = mysql://glance:GLANCE_DBPASS@controller/glance'
+		line	=> 'connection = mysql://glance:$GLANCE_DBPASS@controller/glance'
 	}
 	
 	if file($path) =~ /auth_plugin/{}
@@ -19,7 +19,7 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = glance
-password = skcc1234
+password = $glance_authtoken
 ',
 		}
 	}
