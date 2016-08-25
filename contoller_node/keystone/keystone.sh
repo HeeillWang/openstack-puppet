@@ -1,25 +1,39 @@
+set -e
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
-#Create database and an administration token on mysql
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE keystone"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS'"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS'"
+#Add custom facters
+export FACTERLIB="$DIR/../../environment/custom_facts/"
 
+#Create database
+rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+keystonepass=$(cat $DIR/../../answer.txt | grep "KEYSTONE_DBPASS =")
+
+if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep keystone) ];then
+    echo "database 'keystone' is already exists. skip database creation..."
+else
+    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE keystone" 
+fi
+
+mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '${keystonepass:18}'"
+mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '${keystonepass:18}'"
+
+#Create token
 openssl rand -hex 10 > /root/rand_hex.txt
 
 
 #Install packages
-sudo puppet apply keystone-package.pp
+puppet apply keystone-package.pp
 #Config keystone.conf
-sudo puppet apply keystone_conf.pp
+puppet apply keystone_conf.pp
 #Populate the Identity service database
 /bin/sh -c "keystone-manage db_sync" keystone
 #Config httpd.conf
-sudo puppet apply httpd_conf.pp
+puppet apply httpd_conf.pp
 #Config wsgi-keystone.conf
-sudo puppet apply wsgi-keystone_conf.pp
+puppet apply wsgi-keystone_conf.pp
 
 sudo systemctl enable httpd.service
 sudo systemctl start httpd.service 
@@ -36,27 +50,43 @@ export OS_TOKEN=$token
 export OS_URL="http://controller:35357/v3"
 export OS_IDENTITY_API_VERSION="3"
 
-
 #Create the service entity and API endpoints
+if [ $(openstack service list | grep -w -o keystone) ];then
+    echo "service 'keystone' is already exists! skip service and endpoint creation..."
+else
 openstack service create --name keystone --description "OpenStack Identity" identity
 openstack endpoint create --region RegionOne identity public http://controller:5000/v2.0
 openstack endpoint create --region RegionOne identity internal http://controller:5000/v2.0
 openstack endpoint create --region RegionOne identity admin http://controller:35357/v2.0
+fi
 
 #Create projects, users, and roles
-openstack project create --domain default --description "Admin Project" admin
-openstack user create --domain default --password skcc1234 admin
-openstack role create admin
-openstack role add --project admin --user admin admin
+adminpass=$(cat $DIR/../../answer.txt | grep admin_authpass)
 
-openstack project create --domain default --description "Service Project" service
-openstack project create --domain default --description "Demo Project" demo
-openstack user create --domain default --password skcc1234 demo
-openstack role create user 
-openstack role add --project demo --user demo user
+if [ $(openstack project list | grep -w -o admin) ];then
+    echo "project 'admin' is already exists! skip project creation..."
+else
+    openstack project create --domain default --description "Admin Project" admin
+fi
+
+
+if [ $(openstack user list | grep -w -o admin) ];then
+    echo "user 'admin' is already exists! skip user creation..."
+else
+    openstack user create --domain default --password ${adminpass:17} admin
+    openstack role create admin
+    openstack role add --project admin --user admin admin
+fi
+
+
+if [ $(openstack project list | grep -w -o service) ];then
+    echo "project 'service' is already exists! skip project creation..."
+else
+    openstack project create --domain default --description "Service Project" service
+fi
 
 #Unset the temporary environment variables
 unset OS_TOKEN OS_URL
 
 #Creating the scripts
-sudo puppet apply create_openrc.pp
+puppet apply create_openrc.pp

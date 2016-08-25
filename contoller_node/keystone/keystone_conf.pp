@@ -3,13 +3,13 @@ $path = '/etc/keystone/keystone.conf'){
     file_line{'admin_token':
        path   => $path,
        line   => "admin_token = $token",
-       match  => "#admin_token",
+       match  => "admin_token =",
     }
 
     file_line{'connection':
        path   => $path,
-       line   => "connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone",
-       match  => "#connection =",
+       line   => "connection = mysql://keystone:$keystone_dbpass@controller/keystone",
+       match  => "^#?connection =",
     }
 
     file_line{'servers':
