@@ -17,6 +17,6 @@ ssh compute 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa;cat ~/id_rsa.pub >> ~/.ssh
 
 ssh compute 'yum install -y git'
 ssh compute 'cd /root;git clone https://github.com/showx123/openstack-puppet'
-ssh compute 'source openstack-puppet/puppet-install.sh'
-ssh compute 'source openstack-puppet/environment/environment.sh'
-ssh comptue 'source openstack-puppet/compute/compute.sh'
+ssh compute 'sudo source openstack-puppet/puppet-install.sh'
+ssh compute 'sudo source openstack-puppet/environment/environment.sh'
+ssh comptue 'sudo source openstack-puppet/compute/compute.sh'

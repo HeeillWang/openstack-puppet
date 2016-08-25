@@ -12,9 +12,3 @@ sudo puppet apply ./host/host.pp
 ./MySQL/mariadb.sh
 #./NoSQL/nosql.sh
 ./rabbitmq/rabbitmq.sh
-
-#remote settings
-./keygen.sh
-scp compute.sh root@compute:/root/compute.sh
-ssh compute "source /root/compute.sh"
-
