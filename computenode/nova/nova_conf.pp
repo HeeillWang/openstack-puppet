@@ -96,7 +96,7 @@ password = nova_authpass",
 
    file_line{'novncproxy_base_url':
       path	=> $path,
-      line	=> "novncproxy_base_url = http://10.0.2.15:6080/vnc_auto.html",
+      line	=> "novncproxy_base_url = http://$ipaddr_public:6080/vnc_auto.html",
       match	=> "#novncproxy_base_url",
    }
 
