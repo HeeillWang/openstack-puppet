@@ -1,9 +1,14 @@
+set -e
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+#Add custom facters
+export FACTERLIB="$DIR/../../environment/custom_facts/"
+
 #Enable the OpenStack repository
-puppet apply openstack-package1.pp
+yum install -y centos-release-openstack-liberty
 sudo yum install -y https://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm
 
 #Finalize the installation
