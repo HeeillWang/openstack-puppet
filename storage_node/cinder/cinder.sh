@@ -4,6 +4,10 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+#export environment variable FACTERLIB
+export FACTERLIB="$DIR/../../environment/custom_facts"
+facter | grep keystone
+
 #Create LVM physical volume and volume group
 disk=$(cat ../../answer.txt | grep 'disk =' )
 

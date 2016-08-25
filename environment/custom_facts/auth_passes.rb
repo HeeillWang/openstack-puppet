@@ -13,3 +13,35 @@ Facter.add(:cinder_authpass) do
 		cinder_authpass = pass[pass.index('=')+2,pass.length]
 	end
 end
+
+#Nova auth password
+Facter.add(:nova_authpass) do
+	setcode do
+		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep nova_authpass')
+		nova_authpass = pass[pass.index('=')+2,pass.length]
+	end
+end
+
+#Glance auth password
+Facter.add(:glance_authpass) do
+	setcode do
+		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep glance_authpass')
+		glance_authpass = pass[pass.index('=')+2,pass.length]
+	end
+end
+
+#Neutron auth password
+Facter.add(:neutron_authpass) do
+	setcode do
+		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep neutron_authpass')
+		neutron_authpass = pass[pass.index('=')+2,pass.length]
+	end
+end
+
+#Keystone auth password
+Facter.add(:keystone_authpass) do
+	setcode do
+		pass = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep keystone_authpass')
+		keystone_authpass = pass[pass.index('=')+2,pass.length]
+	end
+end
