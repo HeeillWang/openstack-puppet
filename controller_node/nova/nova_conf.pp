@@ -1,6 +1,14 @@
 class control_nova_conf($path = "/etc/nova/nova.conf"){
+   #for change option(when the option is not commented with '#')
+   exec{'database_connection_change':
+      command => "sed -i '1719,1770s/connection=.*/connection=mysql:\/\/nova:$nova_dbpass@controller\/nova/g' nova.conf",
+      cwd => "/etc/nova",
+      path => "/bin",
+   }
+
+   #for inital excute(when the option is commented with '#')
    exec{'database_connection':
-      command => "sed -i '1719,1770s/#connection=<None>/connection = mysql:\/\/nova:NOVA_DBPASS@controller\/nova/g' nova.conf",
+      command => "sed -i '1719,1770s/#connection=.*/connection=mysql:\/\/nova:$nova_dbpass@controller\/nova/g' nova.conf",
       cwd => "/etc/nova",
       path => "/bin",
    }
@@ -25,7 +33,7 @@ class control_nova_conf($path = "/etc/nova/nova.conf"){
 
    file_line{'rabbit_password':
       path	=> $path,
-      line	=> "rabbit_password = skcc1234",
+      line	=> "rabbit_password = $rabbit_pass",
       match	=> "#rabbit_password",
    }
  
@@ -47,7 +55,7 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = nova
-password = skcc1234",
+password = $nova_authpass",
          match	=> "#auth_uri",
       }
    }

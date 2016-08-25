@@ -27,7 +27,7 @@ else {
 	file_line {'allow':
 		path	=> '/etc/chrony.conf',
 		match	=> 'allow',
-		line	=> 'allow $network_enp0s3',
+		line	=> "allow $priv_subnet",
 	}
 	Package['chrony'] -> File_line[iburst] -> File_line['allow'] -> Service['chronyd']
 }

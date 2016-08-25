@@ -22,8 +22,14 @@ iface1 = bond1
 iface2 = bond0
 
 #Setting ipaddress
+<<<<<<< HEAD
 ipaddr_public = 119.81.249.45
 ipaddr_private = 10.111.140.93
+=======
+ipaddr_public = 10.0.2.15
+ipaddr_private = 192.168.56.101
+private_subnet = 192.168.56.0/24
+>>>>>>> 943512ff9c679441b5a217d23b17aab4549d7c5e
 
 #Setting gateway
 gateway = 119.81.249.33

@@ -1,3 +1,5 @@
+set -e
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
@@ -6,25 +8,45 @@ cd $DIR
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 #Create database
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "CREATE DATABASE nova"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'NOVA_DBPASS'"
-mysql -u root -p"KEYSTONE_DBPASS" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS'"
+rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+novapass=$(cat $DIR/../../answer.txt | grep NOVA_DBPASS)
+echo ${novapass:14}
+
+if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep nova) ];then
+    echo "database 'nova' is already exists. skip database creation..."
+else
+    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE nova" 
+fi
+
+mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '${novapass:14}'"
+mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '${novapass:14}'"
 
 #Create Nova service, user, role and endpoints
 source /root/admin-openrc.sh
+authpass=$(cat $DIR/../../answer.txt | grep nova_authpass)
+echo ${authpass:16}
 
-openstack user create --domain default --password skcc1234 nova
-openstack role add --project service --user nova admin
-openstack service create --name nova --description "OpenStack Compute" compute
-openstack endpoint create --region RegionOne compute public http://controller:8774/v2/%\(tenant_id\)s
-openstack endpoint create --region RegionOne compute internal http://controller:8774/v2/%\(tenant_id\)s
-openstack endpoint create --region RegionOne compute admin http://controller:8774/v2/%\(tenant_id\)s
+if [ $(openstack user list | grep -w -o nova) ];then
+    echo "user 'nova' is already exists! skip user creation..."
+else
+    openstack user create --domain default --password skcc1234 nova
+    openstack role add --project service --user nova admin
+fi
+
+if [ $(openstack service list | grep -w -o nova) ];then
+    echo "service 'nova' is already exists! skip service and endpoint creation..."
+else
+    openstack service create --name nova --description "OpenStack Compute" compute
+    openstack endpoint create --region RegionOne compute public http://controller:8774/v2/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne compute internal http://controller:8774/v2/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne compute admin http://controller:8774/v2/%\(tenant_id\)s
+fi
 
 #install the packages
-sudo puppet apply nova-package.pp
+puppet apply nova-package.pp
 
 #configuring nova.conf
-sudo puppet apply nova_conf.pp
+puppet apply nova_conf.pp
 
 #Populate the Compute database
 /bin/sh -c "nova-manage db sync" nova

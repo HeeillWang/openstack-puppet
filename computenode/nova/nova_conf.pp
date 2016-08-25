@@ -41,14 +41,14 @@ project_domain_id = default
 user_domain_id = default
 project_name = service
 username = nova
-password = nova_authpass",
+password = $nova_authpass",
       match	=> "#auth_uri",
    }
    }
 
    file_line{'my_ip':
       path	=> $path,
-      line	=> "my_ip = ipaddr_private",
+      line	=> "my_ip = $ipaddr_private",
       match	=> "#my_ip",
    }
 
