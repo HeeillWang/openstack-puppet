@@ -1,9 +1,14 @@
 #!/bin/bash
 set -e
 
+echo "Start controller_node neutron"
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
+
+#Add custom facters
+export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
 neutronpass=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
@@ -66,7 +71,7 @@ puppet apply metadata.pp
 puppet apply nova_conf.pp
 
 echo 'Make symbolic link...'
-ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini || true
 
 echo 'Populate database...'
 /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
@@ -78,3 +83,4 @@ systemctl enable neutron-server.service neutron-openvswitch-agent.service neutro
 systemctl start neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service neutron-l3-agent.service
 systemctl restart neutron-server.service neutron-openvswitch-agent.service neutron-dhcp-agent.service neutron-metadata-agent.service neutron-l3-agent.service
 
+echo "Controller_node neutron completed without error"

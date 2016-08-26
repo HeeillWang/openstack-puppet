@@ -1,4 +1,5 @@
 set -e
+echo "Start controller_node horizon"
 
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -19,3 +20,5 @@ done
 yum install -y openstack-dashboard
 
 puppet apply horizon.pp
+
+echo "Controller_node horizon completed without error"

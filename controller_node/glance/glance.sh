@@ -1,5 +1,7 @@
 #set -e
 
+echo "Start conroller_node glance"
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
@@ -73,3 +75,5 @@ else
       --disk-format qcow2 --container-format bare \
       --visibility public --progress
 fi
+
+echo "Conroller_node glance completed without error"

@@ -1,5 +1,7 @@
 set -e
 
+echo "Start controller_node keystone"
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
@@ -95,3 +97,5 @@ unset OS_TOKEN OS_URL
 
 #Creating the scripts
 puppet apply create_openrc.pp
+
+echo "Controller_node keystone completed without error"

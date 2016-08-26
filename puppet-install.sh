@@ -38,3 +38,4 @@ sudo yum install -y puppetserver
 
 sudo puppet module install puppetlabs-stdlib
 
+echo "Puppet install completed!"

@@ -1,5 +1,7 @@
 set -e
 
+echo "Start controller_node cinder"
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
@@ -77,3 +79,6 @@ puppet apply nova_conf.pp
 systemctl restart openstack-nova-api.service
 systemctl enable openstack-cinder-api.service openstack-cinder-scheduler.service
 systemctl start openstack-cinder-api.service openstack-cinder-scheduler.service
+
+
+echo "Conroller_node cinder completed without error"

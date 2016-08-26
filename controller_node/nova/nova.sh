@@ -1,4 +1,5 @@
 set -e
+echo "Start controller_node nova"
 
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -61,3 +62,5 @@ sudo systemctl start openstack-nova-api.service \
   openstack-nova-cert.service openstack-nova-consoleauth.service \
   openstack-nova-scheduler.service openstack-nova-conductor.service \
   openstack-nova-novncproxy.service
+
+echo "Controller_node nova completed without error"

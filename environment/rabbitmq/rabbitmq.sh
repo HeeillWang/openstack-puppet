@@ -1,5 +1,7 @@
 set -e
 
+echo "Start install rabbitmq!"
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
@@ -17,3 +19,5 @@ else
     rabbitmqctl add_user openstack ${rabbitpass:14}
     rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 fi
+
+echo "RabbitMQ install completed!"

@@ -1,3 +1,5 @@
+echo "start install Environment"
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
@@ -15,3 +17,5 @@ puppet apply ./host/host.pp
 ./MySQL/mariadb.sh
 #./NoSQL/nosql.sh
 ./rabbitmq/rabbitmq.sh
+
+echo "Environment install completed!"
