@@ -48,7 +48,7 @@ password = $nova_authpass",
 
    file_line{'my_ip':
       path	=> $path,
-      line	=> "my_ip = $ipaddr_private",
+      line	=> "my_ip = $ip_private",
       match	=> "my_ip =",
    }
 
@@ -96,7 +96,7 @@ password = $nova_authpass",
 
    file_line{'novncproxy_base_url':
       path	=> $path,
-      line	=> "novncproxy_base_url = http://$ipaddr_public:6080/vnc_auto.html",
+      line	=> "novncproxy_base_url = http://$ip_public:6080/vnc_auto.html",
       match	=> "#novncproxy_base_url",
    }
 

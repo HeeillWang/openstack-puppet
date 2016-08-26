@@ -3,7 +3,7 @@ $pathes = '/etc/neutron/dhcp_agent.ini'
 file_line {'interface_driver':
 	path	=> $pathes,
 	match	=> 'agent.linux.interface.BridgeInterfaceDriver',
-	line	=> 'interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver',
+	line	=> 'interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver',
 }
 
 file_line { 'dhcp_driver':

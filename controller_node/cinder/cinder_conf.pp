@@ -58,7 +58,7 @@ password = $cinder_authpass",
 
    file_line{'my_ip':
       path	=> $path,
-      line	=> "my_ip = $ipaddr_private",
+      line	=> "my_ip = $ip_private",
       match	=> "my_ip = ",
    }
 
