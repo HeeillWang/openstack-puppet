@@ -10,27 +10,34 @@ cd $DIR
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 #Create database
-rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
-cinderpass=$(cat $DIR/../../answer.txt | grep CINDER_DBPASS)
+root=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+root_temp=`echo $root | cut -d'=' -f2`
+rootpass=$(echo $root_temp | xargs)
 
-if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep cinder) ];then
+cinder=$(cat $DIR/../../answer.txt | grep CINDER_DBPASS)
+cinder_temp=`echo $cinder | cut -d'=' -f2`
+cinderpass=$(echo $cinder_temp | xargs)
+
+if [ $(mysql -u root -p"$rootpass" mysql -e "SHOW DATABASES" | grep cinder) ];then
     echo "database 'cinder' is already exists. skip database creation..."
 else
-    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE cinder" 
+    mysql -u root -p"$rootpass" mysql -e "CREATE DATABASE cinder" 
 fi
 
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY '${cinderpass:16}'"
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY '${cinderpass:16}'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY '$cinderpass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY '$cinderpass'"
 
 
 #Create user, role, service and endpoints
 source /root/admin-openrc.sh
-authpass=$(cat $DIR/../../answer.txt | grep cinder_authpass)
+auth=$(cat $DIR/../../answer.txt | grep cinder_authpass)
+auth_temp=`echo $auth | cut -d'=' -f2`
+authpass=$(echo $auth_temp | xargs)
 
 if [ $(openstack user list | grep -w -o cinder) ];then
     echo "user 'cinder' is already exists! skip user creation..."
 else
-    openstack user create --domain default --password ${authpass:18} cinder
+    openstack user create --domain default --password $authpass cinder
     openstack role add --project service --user cinder admin
 fi
 
