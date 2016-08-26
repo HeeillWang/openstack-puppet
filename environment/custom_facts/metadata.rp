@@ -1,6 +1,0 @@
-Facter.add(:metadata_proxy) do
-        setcode do
-                meta = Facter::Core::Execution.exec('openssl rand -hex 10')
-        end
-end
-

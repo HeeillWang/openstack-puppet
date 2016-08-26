@@ -3,7 +3,7 @@ $pathes = '/etc/neutron/plugins/ml2/ml2_conf.ini'
 file_line{ 'type_drivers':
 	path	=> $pathes,
 	match	=> '# type_drivers',
-	line 	=> 'type_drivers = flat,vlan,vxlan',
+	line 	=> 'type_drivers = flat,vxlan',
 }
 
 file_line{ 'tenant_network_type':

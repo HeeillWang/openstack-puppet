@@ -107,10 +107,9 @@ password = $neutron_authpass",
 	else {
 		file_line {'nova_section':
 			path	=> $path,
-			match	=> '\[nova\]$',
+			match	=> '# auth_plugin',
 			line	=> 
-"[nova]
-auth_url = http://controller:35357
+"auth_url = http://controller:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default

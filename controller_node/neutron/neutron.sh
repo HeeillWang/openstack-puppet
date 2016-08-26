@@ -7,6 +7,9 @@ echo "Start controller_node neutron"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
+#make metadata random
+openssl rand -hex 10 > /root/metadata_secret.txt
+
 #Add custom facters
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
