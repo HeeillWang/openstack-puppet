@@ -1,34 +1,32 @@
-$fname1 = "/etc/sysconfig/network-scripts/ifcfg-$iface1"
-$fname2 = "/etc/sysconfig/network-scripts/ifcfg-$iface2"
+$fname1 = "/etc/sysconfig/network-scripts/ifcfg-$iface1_com"
+$fname2 = "/etc/sysconfig/network-scripts/ifcfg-$iface2_com"
 
-file { '$fname1':
+file { "ifcfg-$iface1_com":
 	path	=> $fname1,
 	content	=>
-"DEVICE=ifname1
+"DEVICE=$iface1_com
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
-BOUNDING_OPTS='mode=4 miimon=100 downdelay=0 lacp_rate=fast xmit_hash_policy=1'
+BONDING_OPTS='mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1'
 NM_CONTROLLED=no
 DEVICETYPE=ovs
 TYPE=OVSPort
-OVS_BRIDGE=br-public
-"
+OVS_BRIDGE=br-public"
 }
 
-file { '$fname2':
+file { "ifcfg-$iface2_com":
 	path	=> $fname2,
 	content	=>
-"DEVICE=$ifname2
+"DEVICE=$iface2_com
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
-BOUNDING_OPTS='mode=4 miimon=100 downdelay=0 lacp_rate=fast xmit_hash_policy=1'
+BONDING_OPTS='mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1'
 NM_CONTROLLED=no
 DEVICETYPE=ovs
 TYPE=OVSPort
-OVS_BRIDGE=br-private
-"
+OVS_BRIDGE=br-private"
 }
 
 file {'ifcfg-br-public':
@@ -38,10 +36,10 @@ file {'ifcfg-br-public':
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
-IPADDR=$ip_pub_com
+IPADDR=$ip_public_com
 NETMASK=255.255.255.0
 NM_CONTROLLED=no
-GATEWAY=$gate_com
+GATEWAY=$gateway_com
 DEVICETYPE=ovs
 TYPE=OVSBridge",
 }
@@ -53,7 +51,7 @@ file {'ifcfg-br-private':
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
-IPADDR=$ip_priv_com
+IPADDR=$ip_private_com
 NETMASK=255.255.255.0
 NM_CONTROLLED=no
 PEERDNS=yes

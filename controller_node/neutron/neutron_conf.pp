@@ -103,10 +103,11 @@ password = $neutron_authpass",
                 line    => 'nova_url = http://controller:8774/v2',
 	}
 
-	if file($path) =~ /# auth_plugin/{
+	if file($path) =~ /auth_plugin = password/{}
+	else {
 		file_line {'nova_section':
 			path	=> $path,
-			match	=> '\[nova\]',
+			match	=> '\[nova\]$',
 			line	=> 
 "[nova]
 auth_url = http://controller:35357

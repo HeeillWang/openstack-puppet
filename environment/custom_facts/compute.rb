@@ -1,34 +1,34 @@
 Facter.add(:iface1_com) do
         setcode do
-                iface = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep ifname1')
+                iface = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep iface1_com')
                 result = iface[iface.index('=')+2, iface.length]
         end
 end
 
 Facter.add(:iface2_com) do
         setcode do
-                iface = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep ifname2')
+                iface = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep iface2_com')
                 result = iface[iface.index('=')+2, iface.length]
         end
 end
 
-Facter.add(:ip_pub_com) do
+Facter.add(:ip_public_com) do
         setcode do
-                ipaddr = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep ip_public')
+                ipaddr = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep ip_public_com')
                 result = ipaddr[ipaddr.index('=')+2, ipaddr.length]
         end
 end
 
-Facter.add(:ip_priv_com) do
+Facter.add(:ip_private_com) do
         setcode do
-                ipaddr = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep ip_private')
+                ipaddr = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep ip_private_com')
                 result = ipaddr[ipaddr.index('=')+2, ipaddr.length]
         end
 end
 
 Facter.add(:gateway_com) do
         setcode do
-                gate = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep gate_com')
+                gate = Facter::Core::Execution.exec('cat /root/openstack-puppet/answer.txt |grep gateway_com')
                 result = gate[gate.index('=')+2, gate.length]
         end
 end

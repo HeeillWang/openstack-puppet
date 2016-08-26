@@ -12,6 +12,7 @@ export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
 neutronpass=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
+neutronservicepass=$(cat $DIR/../../answer.txt | grep neutron_authpass)
 
 # Database Setting
 if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep neutron) ];then
@@ -33,7 +34,7 @@ echo 'Create Openstack User: neutron...'
 if [ $(openstack user list | grep -w -o neutron) ];then
 	echo "user 'neutron' is already exists! skip uer creation..."
 else
-	openstack user create --domain default --password skcc1234 neutron
+	openstack user create --domain default --password $(neutronservicepass:19) neutron
 	openstack role add --project service --user neutron admin
 fi
 for((i=0;i<COLUMNS;i++))do
@@ -41,7 +42,7 @@ for((i=0;i<COLUMNS;i++))do
 done
 echo 'Create Openstack Service: neutron...'
 
-if [ $(openstack service list | grep -w -o glance) ];then
+if [ $(openstack service list | grep -w -o neutron) ];then
     echo "service 'neutron' is already exists! skip service and endpoint creation..."
 else
 	openstack service create --name neutron --description "OpenStack Networking" network

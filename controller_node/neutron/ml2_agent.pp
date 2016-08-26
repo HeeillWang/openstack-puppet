@@ -15,7 +15,7 @@ file_line{ 'tenant_network_type':
 file_line{ 'mechanism_drivers':
         path    => $pathes,
         match   => '# mechanism_drivers',
-        line    => 'mechanism_drivers = linuxbridge,l2population',
+        line    => 'mechanism_drivers = openvswitch,l2population',
 }
 
 file_line{ 'extension_drivers':

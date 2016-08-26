@@ -9,11 +9,11 @@ cd $DIR
 #Add custom facters
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
-puppet apply neutron-package.pp
-puppet apply neutron-conf.pp
-puppet apply neutron-ovs.pp
+puppet apply neutron_package.pp
+puppet apply neutron_conf.pp
+puppet apply neutron_ovs.pp
 puppet apply ifcfg-br.pp
-puppet apply nova-conf.pp
+puppet apply nova_conf.pp
 
 systemctl restart network
 systemctl restart openstack-nova-compute

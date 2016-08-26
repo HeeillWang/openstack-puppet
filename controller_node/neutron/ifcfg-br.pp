@@ -23,8 +23,7 @@ BONDING_OPTS='mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_p
 NM_CONTROLLED=no
 DEVICETYPE=ovs
 TYPE=OVSPort
-OVS_BRIDGE=br-private
-",
+OVS_BRIDGE=br-private",
 }
 
 file {'ifcfg-br-private':
@@ -57,19 +56,4 @@ NM_CONTROLLED=no
 GATEWAY=$gateway
 DEVICETYPE=ovs
 TYPE=OVSBridge",
-}
-
-file {"ifcfg-$iface2":
-	path    => "/etc/sysconfig/network-scripts/ifcfg-$iface2",
-	content	=> 
-"DEVICE=$iface2
-BOOTPROTO=none
-ONBOOT=yes
-USERCTL=no
-BONDING_OPTS='mode=4 miimon=100 downdelay=0 updelay=0 lacp_rate=fast xmit_hash_policy=1'
-NM_CONTROLLED=no
-DEVICETYPE=ovs
-TYPE=OVSPort
-OVS_BRIDGE=br-private
-",
 }

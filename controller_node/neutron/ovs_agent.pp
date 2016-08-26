@@ -1,18 +1,23 @@
 exec { 'integration_bridge':
-	command	=> "sed -i '0,/# integration_bridge/s/# integration_bridge/integration_bridge/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
-	path	=> ['/bin', '/sbin'],
+        command => "sed -i '/^\[ovs\]/,/^\[agent\]/s/# integration_bridge/integration_bridge/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
+        path    => ['/bin', '/sbin'],
 }
 
 exec { 'tunnel_bridge':
-	command	=> "sed -i '0,/# tunnel_bridge/s/# tunnel_bridge/tunnel_bridge/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
-	path	=> ['/bin', '/sbin'],
+        command => "sed -i '/^\[ovs\]/,/^\[agent\]/s/# tunnel_bridge/tunnel_bridge/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
+        path    => ['/bin', '/sbin'],
 }
 
-file_line{ 'local_ip':
-	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
-	match	=> '# local_ip =$',
-	line	=> $ipaddr_private,
+exec { 'local_ip':
+        command => "sed -i '/^\[ovs\]/,/^\[agent\]/s/# local_ip =/local_ip = $ip_private/' /etc/neutron/plugins/ml2/openvswitch_agent.ini",
+        path    => ['/bin', '/sbin'],
 }
+
+#file_line{ 'local_ip':
+#	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
+#	match	=> '# local_ip =',
+#	line	=> "local ip = $ip_private",
+#}
 
 file_line{'bridge_mappings':
 	path	=> '/etc/neutron/plugins/ml2/openvswitch_agent.ini',

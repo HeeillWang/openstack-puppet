@@ -22,8 +22,8 @@ iface1 = bond1
 iface2 = bond0
 
 #Setting ipaddress
-ipaddr_public = 119.81.249.45
-ipaddr_private = 10.111.140.93
+ip_public = 119.81.249.45
+ip_private = 10.111.140.93
 private_subnet = 10.111.140.64/26
 
 #Setting gateway
@@ -37,8 +37,11 @@ disk = /dev/sdb
 number_compute = 1
 
 #Setting compute nodes
-ifname1 = bond1
-ifname2 = bond0
-ip_public = 119.81.249.45
-ip_private = 10.111.140.93
-gate_com = 119.81.249.33
+#the below configuration would be repeated if the number of compute node would be more than 1
+iface1_com = bond1
+iface2_com = bond0
+ip_public_com = 119.81.249.45
+ip_private_com = 10.111.140.93
+gateway_com = 119.81.249.33
+
+

@@ -37,7 +37,7 @@ file_line{ 'rabbit_userid':
 file_line{ 'rabbit_password':
 	path	=> '/etc/neutron/neutron.conf',
 	match	=> '# rabbit_password = guest',
-	line	=> 'rabbit_password = $rabbit_pass',
+	line	=> "rabbit_password = $rabbit_pass",
 }
 
 if file("/etc/neutron/neutron.conf") =~ /auth_uri = http:\/\/127.0.0.1/{
@@ -71,5 +71,5 @@ file_line{ 'admin_user':
 file_line{ 'admin_password':
 	path	=> '/etc/neutron/neutron.conf',
 	match	=> '^admin_password',
-	line	=> 'password = $neutron_authpass',
+	line	=> "password = $neutron_authpass",
 }

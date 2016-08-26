@@ -5,7 +5,7 @@ cd $DIR
 echo "			Start Remote install in compute-node"
 
 dir_name="/root/.ssh"
-if test -d $file_name;then
+if test -d $dir_name;then
 	echo "		RSA-key already exist! skip RSA-key generation"
 else
 	echo "		Generate RSA-key..."
