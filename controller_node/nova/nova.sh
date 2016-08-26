@@ -9,26 +9,33 @@ cd $DIR
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 #Create database
-rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
-novapass=$(cat $DIR/../../answer.txt | grep NOVA_DBPASS)
+root=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+root_temp=`echo $root | cut -d'=' -f2`
+rootpass=$(echo $root_temp | xargs)
 
-if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep nova) ];then
+nova=$(cat $DIR/../../answer.txt | grep NOVA_DBPASS)
+nova_temp=`echo $nova | cut -d'=' -f2`
+novapass=$(echo $nova_temp | xargs)
+
+if [ $(mysql -u root -p"$rootpass" mysql -e "SHOW DATABASES" | grep nova) ];then
     echo "database 'nova' is already exists. skip database creation..."
 else
-    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE nova" 
+    mysql -u root -p"$rootpass" mysql -e "CREATE DATABASE nova" 
 fi
 
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '${novapass:14}'"
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '${novapass:14}'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '$novapass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '$novapass'"
 
 #Create Nova service, user, role and endpoints
 source /root/admin-openrc.sh
-authpass=$(cat $DIR/../../answer.txt | grep nova_authpass)
+auth=$(cat $DIR/../../answer.txt | grep cinder_authpass)
+auth_temp=`echo $auth | cut -d'=' -f2`
+authpass=$(echo $auth_temp | xargs)
 
 if [ $(openstack user list | grep -w -o nova) ];then
     echo "user 'nova' is already exists! skip user creation..."
 else
-    openstack user create --domain default --password skcc1234 nova
+    openstack user create --domain default --password $authpass nova
     openstack role add --project service --user nova admin
 fi
 

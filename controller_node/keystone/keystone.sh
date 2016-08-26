@@ -10,20 +10,22 @@ cd $DIR
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 #Create database
-rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
-keystonepass=$(cat $DIR/../../answer.txt | grep "KEYSTONE_DBPASS =")
+root=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+root_temp=`echo $root | cut -d'=' -f2`
+rootpass=$(echo $root_temp | xargs)
 
-if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep keystone) ];then
+keystone=$(cat $DIR/../../answer.txt | grep "KEYSTONE_DBPASS =")
+keystone_temp=`echo $keystone | cut -d'=' -f2`
+keystonepass=$(echo $keystone_temp | xargs)
+
+if [ $(mysql -u root -p"$rootpass" mysql -e "SHOW DATABASES" | grep keystone) ];then
     echo "database 'keystone' is already exists. skip database creation..."
 else
-    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE keystone" 
+    mysql -u root -p"$rootpass" mysql -e "CREATE DATABASE keystone" 
 fi
 
-echo "rootpass : ${rootpass:17}"
-echo "keystonepass : ${keystonepass:18}"
-
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '${keystonepass:18}'"
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '${keystonepass:18}'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '$keystonepass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '$keystonepass'"
 
 #Create token
 openssl rand -hex 10 > /root/rand_hex.txt
@@ -68,7 +70,10 @@ openstack endpoint create --region RegionOne identity admin http://controller:35
 fi
 
 #Create projects, users, and roles
-adminpass=$(cat $DIR/../../answer.txt | grep admin_authpass)
+admin=$(cat $DIR/../../answer.txt | grep admin_authpass)
+admin_temp=`echo $admin | cut -d'=' -f2`
+adminpass=$(echo $admin_temp | xargs)
+
 
 if [ $(openstack project list | grep -w -o admin) ];then
     echo "project 'admin' is already exists! skip project creation..."

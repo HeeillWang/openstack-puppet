@@ -49,7 +49,7 @@ password = $nova_authpass",
    file_line{'my_ip':
       path	=> $path,
       line	=> "my_ip = $ipaddr_private",
-      match	=> "#my_ip",
+      match	=> "my_ip =",
    }
 
    file_line{'network_api_class':
@@ -85,7 +85,7 @@ password = $nova_authpass",
    file_line{'vncserver_listen':
       path	=> $path,
       line	=> "vncserver_listen = 0.0.0.0",
-      match	=> "#vncserver_listen",
+      match	=> "vncserver_listen =",
    }
 
    file_line{'server_proxyclient_address':
