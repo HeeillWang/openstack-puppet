@@ -67,7 +67,7 @@ source /root/admin-openrc.sh
 echo "Start verification"
 sudo yum install -y wget
 if [ $(glance image-list | grep -w -o cirros) ];then
-    echo "image 'glance' is already exists! skip image creation..."
+    echo "image 'cirros' is already exists! skip image creation..."
 else
     wget --directory-prefix=/root/ http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
     glance image-create --name "cirros" \

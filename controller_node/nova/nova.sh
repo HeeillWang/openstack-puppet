@@ -11,7 +11,6 @@ export FACTERLIB="$DIR/../../environment/custom_facts/"
 #Create database
 rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
 novapass=$(cat $DIR/../../answer.txt | grep NOVA_DBPASS)
-echo ${novapass:14}
 
 if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep nova) ];then
     echo "database 'nova' is already exists. skip database creation..."
@@ -25,7 +24,6 @@ mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON nova.* TO 'no
 #Create Nova service, user, role and endpoints
 source /root/admin-openrc.sh
 authpass=$(cat $DIR/../../answer.txt | grep nova_authpass)
-echo ${authpass:16}
 
 if [ $(openstack user list | grep -w -o nova) ];then
     echo "user 'nova' is already exists! skip user creation..."

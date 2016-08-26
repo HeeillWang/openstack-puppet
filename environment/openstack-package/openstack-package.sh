@@ -11,10 +11,10 @@ export FACTERLIB="$DIR/../../environment/custom_facts/"
 
 #Enable the OpenStack repository
 yum install -y centos-release-openstack-liberty
-sudo yum install -y https://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm
+sudo yum install -y https://rdoproject.org/repos/openstack-liberty/rdo-release-liberty.rpm || true
 
 #Finalize the installation
 sudo yum upgrade -y
-puppet apply openstack-package2.pp
+puppet apply openstack-package.pp
 
 echo "Openstack-package install completed!"
