@@ -10,18 +10,23 @@ cd $DIR
 #Add custom facters
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
-rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
-neutronpass=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
+root=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+root_temp=`echo $root | cut -d'=' -f2`
+rootpass=$(echo $root_temp | xargs)
+
+neutron=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
+neutron_temp=`echo $neutron | cut -d'=' -f2`
+neutornpass=$(echo $neutron_temp | xargs)
 
 # Database Setting
-if [ $(mysql -u root -p"${rootpass:17}" mysql -e "SHOW DATABASES" | grep neutron) ];then
+if [ $(mysql -u root -p"$rootpass" mysql -e "SHOW DATABASES" | grep neutron) ];then
     echo "database 'neutron' is already exists. skip database creation..."
 else
-    mysql -u root -p"${rootpass:17}" mysql -e "CREATE DATABASE neutron"
+    mysql -u root -p"$rootpass" mysql -e "CREATE DATABASE neutron"
 fi
 
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '${neutron_pass:17}'"
-mysql -u root -p"${rootpass:17}" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '${neutron_pass:17}'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '$neutron_pass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '$neutron_pass'"
 
 
 source /root/admin-openrc.sh
@@ -29,11 +34,16 @@ source /root/admin-openrc.sh
 for((i=0;i<COLUMNS;i++))do
 	echo -n '-'
 done
+
+auth=$(cat $DIR/../../answer.txt | grep cinder_authpass)
+auth_temp=`echo $auth | cut -d'=' -f2`
+authpass=$(echo $auth_temp | xargs)
+
 echo 'Create Openstack User: neutron...'
 if [ $(openstack user list | grep -w -o neutron) ];then
-	echo "user 'neutron' is already exists! skip uer creation..."
+	echo "user 'neutron' is already exists! skip user creation..."
 else
-	openstack user create --domain default --password skcc1234 neutron
+	openstack user create --domain default --password $authpass neutron
 	openstack role add --project service --user neutron admin
 fi
 for((i=0;i<COLUMNS;i++))do
@@ -41,7 +51,7 @@ for((i=0;i<COLUMNS;i++))do
 done
 echo 'Create Openstack Service: neutron...'
 
-if [ $(openstack service list | grep -w -o glance) ];then
+if [ $(openstack service list | grep -w -o neutron) ];then
     echo "service 'neutron' is already exists! skip service and endpoint creation..."
 else
 	openstack service create --name neutron --description "OpenStack Networking" network
