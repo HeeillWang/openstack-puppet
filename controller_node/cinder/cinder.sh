@@ -67,7 +67,7 @@ else
     openstack service create --name cinderv2 \
       --description "OpenStack Block Storage" volumev2
     openstack endpoint create --region RegionOne \
-      volumev2 public http://controller:8776/v2/%\(tenant_id\)s
+      volumev2 public http://$public_ip:8776/v2/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
       volumev2 internal http://controller:8776/v2/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
