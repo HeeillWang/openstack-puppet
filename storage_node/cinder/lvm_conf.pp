@@ -9,5 +9,5 @@ file_line{'filter':
    after   => "# Accept every block device:",
    match_for_absence => true,
    path    => "/etc/lvm/lvm.conf",
-   line    => 'filter = [ "a/sda/", "a/sdb/", "r/.*/"]',
+   line    => '	filter = [ "a/sda/", "a/sdb/", "r/.*/"]',
 }
