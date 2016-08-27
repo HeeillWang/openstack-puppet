@@ -13,11 +13,6 @@ openssl rand -hex 10 > /root/metadata_secret.txt
 #Add custom facters
 export FACTERLIB="$DIR/../../environment/custom_facts/"
 
-<<<<<<< HEAD
-rootpass=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
-neutronpass=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
-neutronservicepass=$(cat $DIR/../../answer.txt | grep neutron_authpass)
-=======
 root=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
 root_temp=`echo $root | cut -d'=' -f2`
 rootpass=$(echo $root_temp | xargs)
@@ -25,7 +20,6 @@ rootpass=$(echo $root_temp | xargs)
 neutron=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
 neutron_temp=`echo $neutron | cut -d'=' -f2`
 neutornpass=$(echo $neutron_temp | xargs)
->>>>>>> 7d3e4b8656076699f6e07d88b9aebccf0b065cfe
 
 # Database Setting
 if [ $(mysql -u root -p"$rootpass" mysql -e "SHOW DATABASES" | grep neutron) ];then
@@ -52,17 +46,18 @@ echo 'Create Openstack User: neutron...'
 if [ $(openstack user list | grep -w -o neutron) ];then
 	echo "user 'neutron' is already exists! skip user creation..."
 else
-<<<<<<< HEAD
-	openstack user create --domain default --password $(neutronservicepass:19) neutron
-=======
 	openstack user create --domain default --password $authpass neutron
->>>>>>> 7d3e4b8656076699f6e07d88b9aebccf0b065cfe
 	openstack role add --project service --user neutron admin
 fi
 for((i=0;i<COLUMNS;i++))do
 	echo -n '-'
 done
 echo 'Create Openstack Service: neutron...'
+
+#Get public ip address from answer.txt
+public=$(cat $DIR/../../answer.txt | grep -w ip_public)
+public_temp=`echo $public | cut -d'=' -f2`
+public_ip=$(echo $public_temp | xargs)
 
 if [ $(openstack service list | grep -w -o neutron) ];then
     echo "service 'neutron' is already exists! skip service and endpoint creation..."
@@ -73,7 +68,7 @@ else
 		echo -n '-'
 	done
 	echo 'Create Service Endpoint: neutron...'
-	openstack endpoint create --region RegionOne network public http://controller:9696
+	openstack endpoint create --region RegionOne network public http://$public_ip:9696
 	openstack endpoint create --region RegionOne network internal http://controller:9696
 	openstack endpoint create --region RegionOne network admin http://controller:9696
 fi
