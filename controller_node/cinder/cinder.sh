@@ -41,6 +41,11 @@ else
     openstack role add --project service --user cinder admin
 fi
 
+#Get public ip address from answer.txt
+public=$(cat $DIR/../../answer.txt | grep -w ip_public)
+public_temp=`echo $public | cut -d'=' -f2`
+public_ip=$(echo $public_temp | xargs)
+
 
 if [ $(openstack service list | grep -w -o cinder) ];then
     echo "service 'cinder' is already exists! skip service and endpoint creation..."
@@ -48,7 +53,7 @@ else
     openstack service create --name cinder \
       --description "OpenStack Block Storage" volume
     openstack endpoint create --region RegionOne \
-      volume public http://controller:8776/v1/%\(tenant_id\)s
+      volume public http://$public_ip:8776/v1/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
       volume internal http://controller:8776/v1/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \

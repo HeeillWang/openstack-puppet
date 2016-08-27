@@ -32,6 +32,11 @@ auth=$(cat $DIR/../../answer.txt | grep cinder_authpass)
 auth_temp=`echo $auth | cut -d'=' -f2`
 authpass=$(echo $auth_temp | xargs)
 
+#Get public ip address from answer.txt
+public=$(cat $DIR/../../answer.txt | grep -w ip_public)
+public_temp=`echo $public | cut -d'=' -f2`
+public_ip=$(echo $public_temp | xargs)
+
 if [ $(openstack user list | grep -w -o nova) ];then
     echo "user 'nova' is already exists! skip user creation..."
 else
@@ -43,7 +48,7 @@ if [ $(openstack service list | grep -w -o nova) ];then
     echo "service 'nova' is already exists! skip service and endpoint creation..."
 else
     openstack service create --name nova --description "OpenStack Compute" compute
-    openstack endpoint create --region RegionOne compute public http://controller:8774/v2/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne compute public http://$public_ip:8774/v2/%\(tenant_id\)s
     openstack endpoint create --region RegionOne compute internal http://controller:8774/v2/%\(tenant_id\)s
     openstack endpoint create --region RegionOne compute admin http://controller:8774/v2/%\(tenant_id\)s
 fi

@@ -47,6 +47,12 @@ fi
 
 echo 'Create Openstack Service: glance...'
 
+#Get public ip address from answer.txt
+public=$(cat $DIR/../../answer.txt | grep -w ip_public)
+public_temp=`echo $public | cut -d'=' -f2`
+public_ip=$(echo $public_temp | xargs)
+
+
 if [ $(openstack service list | grep -w -o glance) ];then
     echo "service 'glance' is already exists! skip service and endpoint creation..."
 else
@@ -55,7 +61,7 @@ else
             echo -n '-'
     done
     echo 'Create Image Endpoint...'
-    openstack endpoint create --region RegionOne image public http://controller:9292
+    openstack endpoint create --region RegionOne image public http://$public_ip:9292
     openstack endpoint create --region RegionOne image internal http://controller:9292
     openstack endpoint create --region RegionOne image admin http://controller:9292
 fi
