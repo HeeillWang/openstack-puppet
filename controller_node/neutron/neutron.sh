@@ -55,9 +55,9 @@ done
 echo 'Create Openstack Service: neutron...'
 
 #Get public ip address from answer.txt
-public=$(cat $DIR/../../answer.txt | grep -w ip_public)
-public_temp=`echo $public | cut -d'=' -f2`
-public_ip=$(echo $public_temp | xargs)
+private=$(cat $DIR/../../answer.txt | grep -w ip_private)
+private_temp=`echo $private | cut -d'=' -f2`
+private_ip=$(echo $private_temp | xargs)
 
 if [ $(openstack service list | grep -w -o neutron) ];then
     echo "service 'neutron' is already exists! skip service and endpoint creation..."
@@ -68,7 +68,7 @@ else
 		echo -n '-'
 	done
 	echo 'Create Service Endpoint: neutron...'
-	openstack endpoint create --region RegionOne network public http://$public_ip:9696
+	openstack endpoint create --region RegionOne network public http://$private_ip:9696
 	openstack endpoint create --region RegionOne network internal http://controller:9696
 	openstack endpoint create --region RegionOne network admin http://controller:9696
 fi

@@ -61,9 +61,9 @@ export OS_URL="http://controller:35357/v3"
 export OS_IDENTITY_API_VERSION="3"
 
 #Get public ip address from answer.txt
-public=$(cat $DIR/../../answer.txt | grep -w ip_public)
-public_temp=`echo $public | cut -d'=' -f2`
-public_ip=$(echo $public_temp | xargs)
+private=$(cat $DIR/../../answer.txt | grep -w ip_private)
+private_temp=`echo $private | cut -d'=' -f2`
+private_ip=$(echo $private_temp | xargs)
 
 
 #Create the service entity and API endpoints
@@ -71,7 +71,7 @@ if [ $(openstack service list | grep -w -o keystone) ];then
     echo "service 'keystone' is already exists! skip service and endpoint creation..."
 else
 openstack service create --name keystone --description "OpenStack Identity" identity
-openstack endpoint create --region RegionOne identity public http://$public_ip:5000/v2.0
+openstack endpoint create --region RegionOne identity public http://$private_ip:5000/v2.0
 openstack endpoint create --region RegionOne identity internal http://controller:5000/v2.0
 openstack endpoint create --region RegionOne identity admin http://controller:35357/v2.0
 fi
@@ -88,11 +88,11 @@ else
     openstack project create --domain default --description "Admin Project" admin
 fi
 
+echo "admin pass : !!$adminpass!!"
 
 if [ $(openstack user list | grep -w -o admin) ];then
     echo "user 'admin' is already exists! skip user creation..."
 else
-    echo "admin pass : $adminpass"
     openstack user create --domain default --password $adminpass admin
     openstack role create admin
     openstack role add --project admin --user admin admin
@@ -110,5 +110,6 @@ unset OS_TOKEN OS_URL
 
 #Creating the scripts
 puppet apply create_openrc.pp
+openstack token issue
 
 echo "Controller_node keystone completed without error"

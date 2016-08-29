@@ -42,9 +42,9 @@ else
 fi
 
 #Get public ip address from answer.txt
-public=$(cat $DIR/../../answer.txt | grep -w ip_public)
-public_temp=`echo $public | cut -d'=' -f2`
-public_ip=$(echo $public_temp | xargs)
+private=$(cat $DIR/../../answer.txt | grep -w ip_private)
+private_temp=`echo $private | cut -d'=' -f2`
+private_ip=$(echo $private_temp | xargs)
 
 
 if [ $(openstack service list | grep -w -o cinder) ];then
@@ -53,7 +53,7 @@ else
     openstack service create --name cinder \
       --description "OpenStack Block Storage" volume
     openstack endpoint create --region RegionOne \
-      volume public http://$public_ip:8776/v1/%\(tenant_id\)s
+      volume public http://$private_ip:8776/v1/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
       volume internal http://controller:8776/v1/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
@@ -67,7 +67,7 @@ else
     openstack service create --name cinderv2 \
       --description "OpenStack Block Storage" volumev2
     openstack endpoint create --region RegionOne \
-      volumev2 public http://$public_ip:8776/v2/%\(tenant_id\)s
+      volumev2 public http://$private_ip:8776/v2/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
       volumev2 internal http://controller:8776/v2/%\(tenant_id\)s
     openstack endpoint create --region RegionOne \
