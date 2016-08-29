@@ -1,8 +1,8 @@
 class glance_api($path = '/etc/glance/glance-api.conf'){
 	file_line {'connection':
 		path	=> $path,
-		match	=> '#connection =',
-		line	=> "connection = mysql://glance:$glance_dbpass@controller/glance",
+		match	=> '#connection=',
+		line	=> "connection=mysql://glance:$glance_dbpass@controller/glance",
 	}
 	if file($path) =~ /auth_plugin/{}
 	else {

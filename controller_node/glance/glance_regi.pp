@@ -1,7 +1,7 @@
 class glance_regi($path = '/etc/glance/glance-registry.conf'){
 	file_line{'connection':
 		path	=> $path,
-		match	=> '#connection =',
+		match	=> '#connection=',
 		line	=> "connection = mysql://glance:$glance_dbpass@controller/glance"
 	}
 	
