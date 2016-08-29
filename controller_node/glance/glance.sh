@@ -41,7 +41,7 @@ echo 'Create Openstack User: glance...'
 if [ $(openstack user list | grep -w -o glance) ];then
     echo "user 'glance' is already exists! skip user creation..."
 else
-    openstack user create --domain default --password $authpass} glance
+    openstack user create --domain default --password $authpass glance
     openstack role add --project service --user glance admin
 fi
 
