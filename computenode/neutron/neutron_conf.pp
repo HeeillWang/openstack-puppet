@@ -9,11 +9,13 @@ file_line{ 'auth_strategy':
 	match	=> '# auth_strategy',
 	line	=> 'auth_strategy = keystone',
 }
-
+if ('/etc/neutron/neutron.conf') =~ /rpc_backend = rabbit/{}
+else {
 file_line{ 'rpc_backend':
 	path	=> '/etc/neutron/neutron.conf',
 	match	=> '# rpc_backend',
-	line	=> 'rpc_backend=rabbit',
+	line	=> 'rpc_backend = rabbit',
+}
 }
 
 file_line{ 'lock_path':
