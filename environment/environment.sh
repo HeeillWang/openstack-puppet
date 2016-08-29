@@ -14,6 +14,23 @@ export FACTERLIB="$DIR/custom_facts"
 
 #installing step
 puppet apply ./host/host.pp
+
+if [ -e /root/.ssh/id_rsa ];then
+        echo "          RSA-key already exist! skip RSA-key generation"
+else
+        echo "          Generate RSA-key..."
+        ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+fi
+
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 644 ~/.ssh/known_hosts || true
+
+echo '                  copy rsa-key to compute node'
+ssh-copy-id root@controller
+ssh-copy-id root@compute
+
 ./ntp/ntp.sh
 ./openstack-package/openstack-package.sh
 ./MySQL/mariadb.sh
