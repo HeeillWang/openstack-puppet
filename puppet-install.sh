@@ -21,7 +21,7 @@ for ((i=0;i<COLUMNS;i++));do
 	echo -n "-"
 done
 
-sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
 
 sleep 1
 

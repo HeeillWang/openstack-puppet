@@ -20,6 +20,7 @@ chmod 644 ~/.ssh/known_hosts || true
 scp ~/.ssh/id_rsa.pub root@compute:~/id_rsa.pub
 ssh compute 'mkdir ~/.ssh;cat ~/id_rsa.pub >> ~/.ssh/authorized_keys'
 #ssh compute 'ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa;cat ~/id_rsa.pub >> ~/.ssh/authorized_keys'
+
 echo '			install git...'
 ssh compute 'yum install -y git'
 echo '			git cloning...'

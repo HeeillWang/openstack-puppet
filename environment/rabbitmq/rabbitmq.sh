@@ -16,6 +16,7 @@ rabbitpass=$(cat $DIR/../../answer.txt | grep rabbit_pass)
 if [ $(rabbitmqctl list_users | grep -w -o openstack) ];then
     echo "rabbitmq user 'openstack' already exists. skip add user..."
 else
+    echo "add rabbitmq user 'openstack'"
     rabbitmqctl add_user openstack ${rabbitpass:14}
     rabbitmqctl set_permissions openstack ".*" ".*" ".*"
 fi

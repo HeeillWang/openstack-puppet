@@ -7,6 +7,10 @@ cd $DIR
 puppet apply mariadb.pp
 
 #Set mysql root password
-mysql -u root mysql -e "update user set password=password('KEYSTONE_DBPASS') where user='root';flush privileges;" || true
+root=$(cat $DIR/../../answer.txt | grep MYSQL_ROOTPASS)
+root_temp=`echo $root | cut -d'=' -f2`
+rootpass=$(echo $root_temp | xargs)
+
+mysql -u root mysql -e "update user set password=password('$rootpass') where user='root';flush privileges;" || true
 
 echo "Mariadb install completed!"

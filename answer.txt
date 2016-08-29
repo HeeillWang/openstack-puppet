@@ -31,7 +31,7 @@ gateway = 119.81.249.33
 
 #Setting disk
 #Multiple disk is OK ex:/dev/sdb /dev/sdc
-disk = /dev/sdb
+disk = /dev/sdb /dev/sdc
 
 #number of compute node
 number_compute = 1

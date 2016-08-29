@@ -26,6 +26,7 @@ fi
 
 mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '$keystonepass'"
 mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '$keystonepass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'neutron'@'compute' IDENTIFIED BY '$keystonepass'"
 
 #Create token
 openssl rand -hex 10 > /root/rand_hex.txt
@@ -91,7 +92,8 @@ fi
 if [ $(openstack user list | grep -w -o admin) ];then
     echo "user 'admin' is already exists! skip user creation..."
 else
-    openstack user create --domain default --password ${adminpass:17} admin
+    echo "admin pass : $adminpass"
+    openstack user create --domain default --password $adminpass admin
     openstack role create admin
     openstack role add --project admin --user admin admin
 fi
