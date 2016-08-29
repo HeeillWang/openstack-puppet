@@ -60,7 +60,7 @@ puppet apply nova-package.pp
 puppet apply nova_conf.pp
 
 #Populate the Compute database
-/bin/sh -c "nova-manage db sync" nova
+su -s /bin/sh -c "nova-manage db sync" nova
 
 #Start the Compute services
 sudo systemctl enable openstack-nova-api.service \

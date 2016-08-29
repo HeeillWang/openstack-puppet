@@ -82,7 +82,7 @@ puppet apply cinder-package.pp
 puppet apply cinder_conf.pp
 
 #Populate the Block Storage database
-/bin/sh -c "cinder-manage db sync" cinder
+su -s /bin/sh -c "cinder-manage db sync" cinder
 
 #Configure Compute to use Block Storage
 puppet apply nova_conf.pp

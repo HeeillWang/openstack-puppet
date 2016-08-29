@@ -26,7 +26,6 @@ fi
 
 mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '$keystonepass'"
 mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '$keystonepass'"
-mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'neutron'@'compute' IDENTIFIED BY '$keystonepass'"
 
 #Create token
 openssl rand -hex 10 > /root/rand_hex.txt
@@ -38,7 +37,7 @@ puppet apply keystone-package.pp
 puppet apply keystone_conf.pp
 #Populate the Identity service database
 echo "dbsync start!"
-/bin/sh -c "keystone-manage db_sync" keystone
+su -s /bin/sh -c "keystone-manage db_sync" keystone
 echo "dbsync completed"
 #Config httpd.conf
 puppet apply httpd_conf.pp

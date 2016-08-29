@@ -71,7 +71,7 @@ puppet apply glance_api.pp
 puppet apply glance_regi.pp
 
 
-/bin/sh -c "glance-manage db_sync" glance
+su -s /bin/sh -c "glance-manage db_sync" glance
 echo "########glance db sync complete#############"
 #Verify operation
 echo "export OS_IMAGE_API_VERSION=2" tee -a /root/admin-openrc.sh
