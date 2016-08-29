@@ -50,11 +50,13 @@ password = $neutron_authpass",
 file_line { 'metadata_ip':
         path    => $pathes,
         match   => '# nova_metadata_ip',
-        line    => 'nova_metadeta_ip = controller',
+        line    => 'nova_metadata_ip = controller',
 }
-
+if file($pathes) =~ /^metadata_proxy_shared_secret/{}
+else {
 file_line { 'metadata_proxy':
         path    => $pathes,
         match   => '# metadata_proxy_shared_secret',
         line    => "metadata_proxy_shared_secret = $metadata_secret",
+}
 }

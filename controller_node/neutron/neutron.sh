@@ -19,8 +19,8 @@ rootpass=$(echo $root_temp | xargs)
 
 neutron=$(cat $DIR/../../answer.txt | grep NEUTRON_DBPASS)
 neutron_temp=`echo $neutron | cut -d'=' -f2`
-neutornpass=$(echo $neutron_temp | xargs)
-
+neutronpass=$(echo $neutron_temp | xargs)
+echo "!!!!!!$neutronpass!!!!!!!!!"
 # Database Setting
 if [ $(mysql -u root -p"$rootpass" mysql -e "SHOW DATABASES" | grep neutron) ];then
     echo "database 'neutron' is already exists. skip database creation..."
@@ -28,8 +28,8 @@ else
     mysql -u root -p"$rootpass" mysql -e "CREATE DATABASE neutron"
 fi
 
-mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '$neutron_pass'"
-mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '$neutron_pass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY '$neutronpass'"
+mysql -u root -p"$rootpass" mysql -e "GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY '$neutronpass'"
 
 
 source /root/admin-openrc.sh
