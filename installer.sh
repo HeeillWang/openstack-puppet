@@ -1,4 +1,4 @@
-#set -e
+set -e
 
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -31,3 +31,8 @@ else
 	./remote/remote_installer.sh
         date
 fi
+
+systemctl restart httpd
+source /root/admin-openrc.sh
+echo 'Restart all openstack-service'
+openstack-service restart
