@@ -6,12 +6,14 @@ cd $DIR
 
 temp=$(cat $DIR/answer.txt | grep "number_compute = ")
 number_com=${temp:17}
+
+#set hostname ad 'controller'
 hostnamectl set-hostname controller
 
 #make metadata random
 openssl rand -hex 10 > /root/metadata_secret.txt
 
-if [ $number_com = 0 ];then
+if [ $number_com == 0 ];then
 	./puppet-install.sh
 	./environment/environment.sh
 	./controller_node/controller.sh

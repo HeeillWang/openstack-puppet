@@ -8,10 +8,11 @@ cd $DIR
 export FACTERLIB="$DIR/custom_facts"
 
 
-if [ "$hostname" != "controller" ];then
-	hostnamectl set-hostname compute
-fi
-installing step
+#if [ "$hostname" != "controller" ];then
+#	hostnamectl set-hostname compute
+#fi
+
+#installing step
 puppet apply ./host/host.pp
 ./ntp/ntp.sh
 ./openstack-package/openstack-package.sh

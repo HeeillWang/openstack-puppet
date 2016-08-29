@@ -110,6 +110,7 @@ unset OS_TOKEN OS_URL
 
 #Creating the scripts
 puppet apply create_openrc.pp
+source /root/admin-openrc.sh
 openstack token issue
 
 echo "Controller_node keystone completed without error"

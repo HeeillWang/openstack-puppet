@@ -1,11 +1,12 @@
+#!/bin/bash
+
 #Move to current directory
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 echo "			Start Remote install in compute-node"
 
-dir_name="/root/.ssh"
-if test -d $dir_name;then
+if [ -e /root/.ssh/id_rsa ];then
 	echo "		RSA-key already exist! skip RSA-key generation"
 else
 	echo "		Generate RSA-key..."
