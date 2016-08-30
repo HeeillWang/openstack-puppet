@@ -21,17 +21,13 @@ if [ $number_com == 0 ];then
 	./storage_node/cinder/cinder.sh
 else
 	./puppet-install.sh
-        date
         ./environment/environment.sh
-        date
         ./controller_node/controller.sh
-        date
         ./storage_node/cinder/cinder.sh
-        date
 	./remote/remote_installer.sh
-        date
 fi
 
+#Restart the services for finalization.
 systemctl restart httpd
 source /root/admin-openrc.sh
 echo 'Restart all openstack-service'
