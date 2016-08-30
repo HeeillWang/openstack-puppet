@@ -7,6 +7,10 @@ cd $DIR
 temp=$(cat $DIR/answer.txt | grep "number_compute = ")
 number_com=${temp:17}
 
+#Stop and diable NetworkManager
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+
 #set hostname ad 'controller'
 hostnamectl set-hostname controller
 
