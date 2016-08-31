@@ -11,15 +11,28 @@ On version 1.0 you can only install openstack with one or zero compute node.
 Then, you can run Installer.sh which automatically install Openstack.
 
 Installer.sh - Install all Openstack components and environments. 
+
                Installer excute all shell-scripts on this repository except package.sh.
+               
 Puppet-install.sh - Install Puppet. This is automatically excuted by installer.
+
 answer.txt - Setting informations that are needed on installation.
+
 controller.sh - Install all Controller node components. This is automatically excuted by installer. Swift not included yet.
+
 compute.sh - Install all Compute node components. This is automatically excuted by installer or remote_installer.sh
-remote_installer.sh - Install compute node by using ssh. This is automatically excuted by installer only when install more than one                            compute node
+
+remote_installer.sh - Install compute node by using ssh. This is automatically excuted by installer only when install more than one  
+
+compute node
+
 storagenode/cinder - For install storagenode. On version 1.0 it is just considered as controller node component.
 
-each components(rabbitmq, keystone, nova, neutron, horizion...etc) - For install each components. It is included corresponding directory and excuted by them such as contorller.sh or compute.sh
+
+each components(rabbitmq, keystone, nova, neutron, horizion...etc) - For install each components. It is included corresponding
+
+directory and excuted by them such as contorller.sh or compute.sh
+
 package.sh - For install packages only. Basically you don't need to consider or excute it.
 
 *for Korean :
