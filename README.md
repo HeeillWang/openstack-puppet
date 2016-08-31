@@ -18,7 +18,7 @@ Then, you can run Installer.sh which automatically install Openstack.
 
 Installer.sh - Install all Openstack components and environments. 
 
-               Installer excute all shell-scripts on this repository except package.sh.
+Installer excute all shell-scripts on this repository except package.sh.
                
 Puppet-install.sh - Install Puppet. This is automatically excuted by installer.
 
@@ -60,7 +60,7 @@ answer.txt에 IP주소, 비밀번호, 설치할 컴퓨트 노드의 개수 등�
 
 installer.sh - Openstack의 모든 컴포넌트와 환경을 설치한다.
 
-               installer는 package.sh를 제외한 이 프로젝트의 모든 쉘을 호출하여 실행한다.
+installer는 package.sh를 제외한 이 프로젝트의 모든 쉘을 호출하여 실행한다.
                
 Puppet-install.sh - Puppet을 설치한다. insaller에 의해 호출된다.
 
